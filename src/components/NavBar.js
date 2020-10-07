@@ -27,7 +27,7 @@ const link = {
             style={link}
             activeStyle={{background: '#6A994E'}}>
           Bookmarks</NavLink>
-          <NavLink
+          {/* <NavLink
           to="/logout"
           exact
           style={link}
@@ -38,7 +38,7 @@ const link = {
             exact
             style={link}
             activeStyle={{background: '#6A994E'}}>
-          Login</NavLink>
+          Login</NavLink> */}
         </div>
       );
     }
