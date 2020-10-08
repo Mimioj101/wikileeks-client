@@ -7,6 +7,7 @@ import BookmarkContainer from './containers/BookmarkContainer.js'
 import WikiContainer from './containers/WikiContainer.js'
 import Login from './components/Login.js'
 import Signup from './components/Signup.js'
+import SearchForm from './components/SearchForm.js'
 
 
 class App extends React.Component {
@@ -77,6 +78,13 @@ class App extends React.Component {
     })
   }
 
+  searchHandler = (searchTerm) => {
+    let banana = searchTerm.split(" ").join("%20")
+    fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srlimit=30&srsearch=${banana}&utf8=&format=json`)
+    .then(resp => resp.json())
+    .then(data => console.log(data["query"]["search"]))
+  }
+
 
 
   render() {
@@ -85,7 +93,12 @@ class App extends React.Component {
       <div>
         <Router>
         <NavBar />
-          <Route exact path="/" component={WikiContainer}/>
+          <Route exact path="/" render={() => (
+            <div>
+              <SearchForm searchHandler={this.searchHandler}/>
+              <WikiContainer/>
+            </div>
+          )}/>
           <Route exact path="/bookmarks" component={BookmarkContainer}/>
         </Router>
         <Login loginHandler={this.loginHandler}/>
