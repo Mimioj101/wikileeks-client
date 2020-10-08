@@ -3,11 +3,11 @@ import React from "react"
 export default class WikiCard extends React.Component{
 
     render() {
-        console.log(this.props.wiki)
+        let joinedTitle = this.props.wiki.title.split(" ").join("_")
+        let wikiURL = `https://en.wikipedia.org/wiki/${joinedTitle}` 
         return(
             <div class="card">
-                <h3>{this.props.wiki.title}</h3>
-                <a href={this.props.wiki.url} target="_blank">{this.props.wiki.title}</a>
+                <a href={wikiURL}>{this.props.wiki.title}</a>
             </div>
         )
     }

@@ -9,6 +9,7 @@ export default class WikiContainer extends React.Component{
     
 
     render() {
+        console.log(this.props.wikis)
         return(
             <div>
                 <br/>
