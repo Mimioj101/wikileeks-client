@@ -88,25 +88,7 @@ class App extends React.Component {
     )
   }
 
-
-
-  // wikiGatherer = (titles, urls) => {
-  //   let newArray = []
-  //   for (let i=0; i<titles.length; i++){
-  //     let faker = {
-  //       title: titles[i],
-  //       url: urls[i]
-  //     }
-  //     newArray.push(faker)
-  //   }
-  //   this.setState({searchedWikis: newArray})
-  // }
-
-
-
   render() {
-    // {this.state.user ? console.log("LOGGED IN", this.state.user) : console.log("NOPE")}
-    console.log("state", this.state.searchedWikis)
     return (
       <div>
         <Router>

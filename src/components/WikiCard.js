@@ -6,8 +6,8 @@ export default class WikiCard extends React.Component{
         let joinedTitle = this.props.wiki.title.split(" ").join("_")
         let wikiURL = `https://en.wikipedia.org/wiki/${joinedTitle}` 
         return(
-            <div class="card">
-                <a href={wikiURL}>{this.props.wiki.title}</a>
+            <div className="card">
+                <a href={wikiURL} target="_blank">{this.props.wiki.title}</a>
             </div>
         )
     }

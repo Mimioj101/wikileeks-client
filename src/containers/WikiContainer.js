@@ -4,12 +4,11 @@ import WikiCard from '../components/WikiCard.js'
 export default class WikiContainer extends React.Component{
 
     parseWikis = () => {
-        return this.props.wikis.map(wiki => <WikiCard key={wiki.id} wiki={wiki}/>)
+        return this.props.wikis.map(wiki => <WikiCard key={wiki.pageid} wiki={wiki}/>)
     }
     
 
     render() {
-        console.log(this.props.wikis)
         return(
             <div>
                 <br/>

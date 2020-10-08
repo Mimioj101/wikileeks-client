@@ -7,7 +7,7 @@ export default class BookmarkContainer extends React.Component{
         return(
             <div>
                 <p>BookmarkContainer</p>
-                <WikiCard />
+                {/* <WikiCard /> */}
             </div>
         )
     }
