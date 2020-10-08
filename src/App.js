@@ -81,20 +81,29 @@ class App extends React.Component {
 
   searchHandler = (searchTerm) => {
     let banana = searchTerm.split(" ").join("%20")
-    fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srlimit=30&srsearch=${banana}&utf8=&format=json`)
+    fetch(`https://en.wikipedia.org/w/api.php?action=opensearch&search=${banana}&limit=30&namespace=0&format=json`)
     .then(resp => resp.json())
-    .then(data => this.setState({searchedWikis: data["query"]["search"]}))
+    .then(data => this.wikiGatherer(data[1], data[3]))
   }
 
-  // data["query"]["search"].map(wiki => this.wikiParser(wiki))
-  // wikiParser = (wiki) => {
-    // <WikiCard key={wiki.id} wiki={wiki}/>
-  // }
+
+
+  wikiGatherer = (titles, urls) => {
+    let newArray = []
+    for (let i=0; i<titles.length; i++){
+      let faker = {
+        title: titles[i],
+        url: urls[i]
+      }
+      newArray.push(faker)
+    }
+    // console.log(newArray)
+    this.setState({searchedWikis: newArray})
+  }
 
 
 
   render() {
-    // console.log(this.state.searchedWikis)
     // {this.state.user ? console.log("LOGGED IN", this.state.user) : console.log("NOPE")}
     return (
       <div>
