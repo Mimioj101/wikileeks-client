@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Switch, withRouter, Redirect } from 'react-router-dom'
+// import { Switch, withRouter, Redirect } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import BookmarkContainer from './containers/BookmarkContainer.js'
 import WikiContainer from './containers/WikiContainer.js'
@@ -13,7 +13,8 @@ import SearchForm from './components/SearchForm.js'
 class App extends React.Component {
 
   state = {
-    user: ""
+    user: "",
+    searchedWikis: []
   }
 
   componentDidMount() {
@@ -82,21 +83,28 @@ class App extends React.Component {
     let banana = searchTerm.split(" ").join("%20")
     fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srlimit=30&srsearch=${banana}&utf8=&format=json`)
     .then(resp => resp.json())
-    .then(data => console.log(data["query"]["search"]))
+    .then(data => this.setState({searchedWikis: data["query"]["search"]}))
   }
+
+  // data["query"]["search"].map(wiki => this.wikiParser(wiki))
+  // wikiParser = (wiki) => {
+    // <WikiCard key={wiki.id} wiki={wiki}/>
+  // }
 
 
 
   render() {
-    {this.state.user ? console.log("LOGGED IN", this.state.user) : console.log("NOPE")}
+    // console.log(this.state.searchedWikis)
+    // {this.state.user ? console.log("LOGGED IN", this.state.user) : console.log("NOPE")}
     return (
       <div>
         <Router>
         <NavBar />
           <Route exact path="/" render={() => (
             <div>
+              <br/>
               <SearchForm searchHandler={this.searchHandler}/>
-              <WikiContainer/>
+              <WikiContainer wikis={this.state.searchedWikis}/>
             </div>
           )}/>
           <Route exact path="/bookmarks" component={BookmarkContainer}/>
