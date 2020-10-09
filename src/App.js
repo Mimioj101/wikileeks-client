@@ -14,7 +14,8 @@ class App extends React.Component {
 
   state = {
     user: "",
-    searchedWikis: []
+    searchedWikis: [],
+    bookmarkedWikis: []
   }
 
   componentDidMount() {
@@ -88,7 +89,15 @@ class App extends React.Component {
     )
   }
 
+  bookmarkHandler = (wiki) => {
+    // console.log("wiki in App.js", wiki)
+    let newArray = [...this.state.bookmarkedWikis]
+    newArray.push(wiki)
+    this.setState({bookmarkedWikis: newArray})
+  }
+
   render() {
+    console.log("state in App.js", this.state.bookmarkedWikis)
     return (
       <div>
         <Router>
@@ -97,10 +106,14 @@ class App extends React.Component {
             <div>
               <br/>
               <SearchForm searchHandler={this.searchHandler}/>
-              <WikiContainer wikis={this.state.searchedWikis}/>
+              <WikiContainer wikis={this.state.searchedWikis} bookmarkHandler={this.bookmarkHandler}/>
             </div>
           )}/>
-          <Route exact path="/bookmarks" component={BookmarkContainer}/>
+          <Route exact path="/bookmarks" render={() => (
+            <div>
+              <BookmarkContainer wikis={this.state.bookmarkedWikis}/>
+            </div>
+          )}/>
         </Router>
         <Login loginHandler={this.loginHandler}/>
         <Signup signupHandler={this.signupHandler}/>

@@ -21,7 +21,7 @@ export default class SearchForm extends React.Component {
         return(
             <div>
                 <form onSubmit={this.searchHandler}>
-                <input type="text" placeholder="Search..." onChange={this.changeHandler} value={this.state.searchTerm}/>
+                <input type="search" placeholder="Search..." onChange={this.changeHandler} value={this.state.searchTerm}/>
                 </form>
             </div>
         )

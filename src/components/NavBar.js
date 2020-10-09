@@ -5,11 +5,13 @@ import { NavLink } from 'react-router-dom';
 const link = {
     width: '100px',
     padding: '12px',
-    margin: '0 6px 6px',
-    background: 'blue',
+    // margin: '0 6px 6px',
+    background: '#252627',
     textDecoration: 'none',
     color: 'white',
   }
+
+  
 
   class NavBar extends React.Component {
     render() {
@@ -19,25 +21,25 @@ const link = {
             to="/"
             exact
             style={link}
-            activeStyle={{background: '#6A994E'}}>
+            activeStyle={{background: '#564E58'}}>
           Home</NavLink>
           <NavLink
             to="/bookmarks"
             exact
             style={link}
-            activeStyle={{background: '#6A994E'}}>
+            activeStyle={{background: '#564E58'}}>
           Bookmarks</NavLink>
           {/* <NavLink
           to="/logout"
           exact
           style={link}
-          activeStyle={{background: '#6A994E'}}>
+          activeStyle={{background: '#564E58'}}>
           Logout</NavLink> 
           <NavLink
             to="/login"
             exact
             style={link}
-            activeStyle={{background: '#6A994E'}}>
+            activeStyle={{background: '#564E58'}}>
           Login</NavLink> */}
         </div>
       );
