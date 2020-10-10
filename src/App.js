@@ -89,7 +89,6 @@ class App extends React.Component {
   }
 
   postWiki = (wiki) => {
-    // console.log("wiki in postWiki", wiki)
       let wikiObj = {
         page_id: wiki.pageid, 
         page_title: wiki.title,
@@ -131,16 +130,16 @@ class App extends React.Component {
 
   bookmarkHandler = (wiki) => {
     if (this.state.bookmarkedWikis.includes(wiki)) {
+      // shouldn't check state, should check the DB
       console.log("DELETE IT, KILL IT WITH FIRE")
-      // if wiki exists in this.state.bookmarkedWikis, DELETE & setState
+      // DELETE & setState
     } else {
       let newArray = [...this.state.bookmarkedWikis]
       newArray.push(wiki)
       this.setState({bookmarkedWikis: newArray})
-      console.log("CONGRATS, ITS A WIKI")
-      // else, POST wiki, POST bookmark, POST folder & setState
-     // this.postWiki(wiki)
-     // this.postBookmark(wiki)
+      this.postWiki(wiki)
+      // this.postBookmark(wiki)
+      // POST folder & setState
    }
   }
 
