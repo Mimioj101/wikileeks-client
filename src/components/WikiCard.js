@@ -14,9 +14,9 @@ export default class WikiCard extends React.Component{
 
     bookmarkRender = () => {
         if (this.state.bookmarked) {
-            return <img src="Bookmarked.png" width="20px" onClick={this.clickHandler} />
+            return <img className="bookmark-img" src="Bookmarked.png" width="25px" onClick={this.clickHandler} />
         } else {
-            return <img src="Unbookmarked.png" width="20px" onClick={this.clickHandler} />
+            return <img className="bookmark-img" src="Unbookmarked.png" width="25px" onClick={this.clickHandler} />
         }
     }
     
@@ -25,7 +25,7 @@ export default class WikiCard extends React.Component{
         let joinedTitle = this.props.wiki.title.split(" ").join("_")
         let wikiURL = `https://en.wikipedia.org/wiki/${joinedTitle}` 
         return(
-            <div id="wiki-card" className="card">
+            <div className="wiki-card" >
                 <span>
                     <a href={wikiURL} target="_blank">{this.props.wiki.title}</a>
                     {this.bookmarkRender()}

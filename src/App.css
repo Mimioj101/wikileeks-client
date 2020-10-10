@@ -1,8 +1,90 @@
+@import url(https://fonts.googleapis.com/css?family=Patrick+Hand+SC);
+
 body {
+  /* color of app background */
   background-color: #F2EFE9;
+  /* font on whole website */
+  font-family: 'Patrick Hand SC', cursive;
 }
 
-/* .wikiContainer {
-  display: grid;
-  grid: 150px / auto auto auto;
-} */
+.wikiContainer {
+  /* margin around whole container */
+  margin: 10px 10px 10px 10px;
+  /* makes it a flex  */
+  display:flex;
+  /* flex direction is row, flex wrap is on */
+  flex-flow: row wrap;
+  /* flex is generally center aligned */
+  justify-content:center;
+}
+
+.bookmarkContainer {
+  /* margin around whole container */
+  margin: 10px 10px 10px 10px;
+  /* makes it a flex  */
+  display:flex;
+  /* flex direction is row, flex wrap is on */
+  flex-flow: row wrap;
+  /* flex is generally center aligned */
+  justify-content:center;
+  /* makes border arounf bookmark container*/
+  border:solid 2px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+#bookmarks-header {
+  /* text is centered on page */
+  text-align: center;
+  /* font size */
+  font-size: 40px;
+  /* font color */
+  color:#41403E;
+}
+
+.wiki-card {
+  /* background color of wikicard */
+  background:transparent;
+  /* size of wiki card around divs */
+  padding:1rem 1rem;
+  /* space in b/t wikicards */
+  margin:10px 10px;
+  /* line color */
+  color:#41403E;
+  /* font size */
+  font-size:1rem;
+  /* spaces letters out nicely */
+  letter-spacing:1px;
+  /* makes border */
+  border:solid 2px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+.wiki-card:hover {
+  /* wiki card background color changes on hover */
+  background-color: #ddd;
+}
+
+a {
+  /* hyperlink text color */
+  color: #41403E;
+  /* gets rid of underline */
+  text-decoration: none;
+}
+
+.bookmark-img {
+  /* vertically aligns bookmark img w/ text */
+  vertical-align: middle;
+}
+
+input[type=search] {
+  /* makes border */
+  border:solid 2px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 25;
+  /* makes box bigger as font size gets bigger */
+  font-size: 30px;
+  /* makes background match color of app background */
+  background-color: transparent;
+}

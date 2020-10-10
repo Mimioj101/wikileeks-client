@@ -11,8 +11,10 @@ export default class BookmarkContainer extends React.Component{
         // console.log("wikis in bookmarkContainer", this.props.wikis)
         return(
             <div>
-                <p>BookmarkContainer</p>
-                {this.renderWikis()}
+                <p id="bookmarks-header">Bookmarks</p>
+                <div className="bookmarkContainer">
+                    {this.renderWikis()}
+                </div>
             </div>
         )
     }
