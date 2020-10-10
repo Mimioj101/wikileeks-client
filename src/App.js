@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-// import { Switch, withRouter, Redirect } from 'react-router-dom'
+import { Switch, withRouter, Redirect, Route, BrowserRouter as Router } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import BookmarkContainer from './containers/BookmarkContainer.js'
 import WikiContainer from './containers/WikiContainer.js'
@@ -27,14 +26,15 @@ class App extends React.Component {
       })
         .then(resp => resp.json())
         .then(userData => {
-          this.setState(() => ({
-            user: userData.user
-          }))
+          this.setState(
+            () => ({user: userData.user}),
+            () => this.props.history.push('/')
+          )
         })
         // POST fetch a folder
       } else {
-        console.log('Log in yo')
-        // after you set state, do this.props.history.push('/home') for login and signup
+        this.props.history.push('/login')
+        console.log("log in, yo")
     }
   }
   
@@ -43,18 +43,16 @@ class App extends React.Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Accepts": "application/json",
-        Authorization: `Bearer ${localStorage.getItem('token')}`},
+        "Accepts": "application/json"},
       body: JSON.stringify({user: userInfo})
       }
     fetch("http://localhost:3000/api/v1/login", configObj)
     .then(resp => resp.json())
     .then(userData => {
       localStorage.setItem("token", userData.jwt);
-      this.setState(() => ({
-        user: userData.user})
-         // after you set state, do , this.props.history.push('/home') for login and signup
-
+      this.setState(
+        () => ({user: userData.user}),
+        () => this.props.history.push('/')
       )
     })
   }
@@ -66,15 +64,14 @@ class App extends React.Component {
         "Content-Type": "application/json",
         "Accepts": "application/json"},
       body: JSON.stringify({user: userInfo})
-      }
+    }
     fetch("http://localhost:3000/api/v1/users", configObj)
     .then(resp => resp.json())
     .then(userData => {
       localStorage.setItem("token", userData.jwt);
-      this.setState(() => ({
-        user: userData.user
-      })
-        // after you set state, do , this.props.history.push('/home') for login and signup
+      this.setState(
+        () => ({user: userData.user}),
+        () => this.props.history.push('/')
       )
     })
   }
@@ -143,35 +140,56 @@ class App extends React.Component {
    }
   }
 
+  renderNavBar = () => {
+    if (this.state.user) {
+      return <NavBar/>
+    } else {
+      return null
+    }
+  }
+
 
   render() {
     console.log("state in App.js", this.state.bookmarkedWikis)
-    // console.log("user in App.js", this.state.user)
+    console.log("user in App.js", this.state.user)
     // console.log("my wikis", this.state.user.my_wikis)
     return (
       <div>
-        <Router>
-        <NavBar />
-          <Route exact path="/" render={() => (
-            <div>
-              <br/>
-              <SearchForm searchHandler={this.searchHandler}/>
-              <WikiContainer wikis={this.state.searchedWikis} bookmarkHandler={this.bookmarkHandler}/>
-            </div>
-          )}/>
-          <Route exact path="/bookmarks" render={() => (
-            <div>
-              <BookmarkContainer wikis={this.state.bookmarkedWikis}/>
-            </div>
-          )}/>
-        </Router>
-        <Login loginHandler={this.loginHandler}/>
-        <Signup signupHandler={this.signupHandler}/>
+        {this.renderNavBar()}
+        <Switch>
+          <Route 
+            path="/login"
+            render={()=> <Login loginHandler={this.loginHandler}/>}
+          />
+          <Route 
+            path="/signup"
+            render={() => <Signup signupHandler={this.signupHandler}/>}
+          />
+        <Route 
+          path="/bookmarks" 
+          render={() => {
+            return this.state.user ?
+              <BookmarkContainer user={this.state.user} wikis={this.state.bookmarkedWikis}/>
+              : null
+          // : <redirect to="/signup"/>
+        }}/>
+          <Route 
+            path="/" 
+            render={() => {
+            return this.state.user ?
+              <div>
+                <br/>
+                <SearchForm searchHandler={this.searchHandler}/>
+                <WikiContainer wikis={this.state.searchedWikis} bookmarkHandler={this.bookmarkHandler}/>
+              </div>
+              : null
+            // : <redirect to="/signup"/>
+          }}/>
+        </Switch>
       </div>
-    );
+    )
   }
-
 }
 
-// withRouter(app)
-export default App;
+
+export default withRouter(App)
