@@ -31,19 +31,20 @@ class App extends React.Component {
             user: userData.user
           }))
         })
+        // POST fetch a folder
       } else {
         console.log('Log in yo')
         // after you set state, do this.props.history.push('/home') for login and signup
     }
   }
   
-  
   loginHandler = (userInfo) => {
     const configObj = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Accepts": "application/json"},
+        "Accepts": "application/json",
+        Authorization: `Bearer ${localStorage.getItem('token')}`},
       body: JSON.stringify({user: userInfo})
       }
     fetch("http://localhost:3000/api/v1/login", configObj)
@@ -51,14 +52,12 @@ class App extends React.Component {
     .then(userData => {
       localStorage.setItem("token", userData.jwt);
       this.setState(() => ({
-        user: userData.user
-      })
-              // after you set state, do , this.props.history.push('/home') for login and signup
+        user: userData.user})
+         // after you set state, do , this.props.history.push('/home') for login and signup
 
       )
     })
   }
-
 
   signupHandler = (userInfo) => {
     const configObj = {
@@ -75,29 +74,81 @@ class App extends React.Component {
       this.setState(() => ({
         user: userData.user
       })
-                    // after you set state, do , this.props.history.push('/home') for login and signup
+        // after you set state, do , this.props.history.push('/home') for login and signup
       )
     })
   }
 
   searchHandler = (searchTerm) => {
     let banana = searchTerm.split(" ").join("%20")
-    fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srlimit=30&srsearch=${banana}&utf8=&format=json`)
+    fetch(`https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/w/api.php?action=query&list=search&srlimit=30&srsearch=${banana}&utf8=&format=json`)
     .then(resp => resp.json())
     .then(data => 
       this.setState({searchedWikis: data["query"]["search"]})
     )
   }
 
-  bookmarkHandler = (wiki) => {
-    // console.log("wiki in App.js", wiki)
-    let newArray = [...this.state.bookmarkedWikis]
-    newArray.push(wiki)
-    this.setState({bookmarkedWikis: newArray})
+  postWiki = (wiki) => {
+    // console.log("wiki in postWiki", wiki)
+      let wikiObj = {
+        page_id: wiki.pageid, 
+        page_title: wiki.title,
+        snippet: wiki.snippet}
+     let options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': "application/json",
+        Authorization: `Bearer ${localStorage.getItem('token')}`},
+      body: JSON.stringify(wikiObj)
+     }
+     fetch("http://localhost:3000/api/v1/wikis", options)
+     .then(resp => resp.json())
+     .then(data => console.log("did you post a wiki, son?", data))
   }
+
+  postBookmark = (wiki) => {
+    // console.log("bookmarking", wiki)
+    let bookmarkObj = {
+      user_id: this.state.user.id,
+      wiki_id: wiki.id
+    }
+    let options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': "application/json",
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(bookmarkObj)
+    }
+    fetch("http://localhost:3000/api/v1/bookmarks", options)
+    .then(resp => resp.json())
+    .then(data => {
+      console.log("did you post a bookmark, son?", data)
+    })
+  }
+
+  bookmarkHandler = (wiki) => {
+    if (this.state.bookmarkedWikis.includes(wiki)) {
+      console.log("DELETE IT, KILL IT WITH FIRE")
+      // if wiki exists in this.state.bookmarkedWikis, DELETE & setState
+    } else {
+      let newArray = [...this.state.bookmarkedWikis]
+      newArray.push(wiki)
+      this.setState({bookmarkedWikis: newArray})
+      console.log("CONGRATS, ITS A WIKI")
+      // else, POST wiki, POST bookmark, POST folder & setState
+     // this.postWiki(wiki)
+     // this.postBookmark(wiki)
+   }
+  }
+
 
   render() {
     console.log("state in App.js", this.state.bookmarkedWikis)
+    // console.log("user in App.js", this.state.user)
+    // console.log("my wikis", this.state.user.my_wikis)
     return (
       <div>
         <Router>
