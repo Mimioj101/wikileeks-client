@@ -1,5 +1,5 @@
 import React from "react"
-import { Switch, withRouter, Redirect, Route } from 'react-router-dom'
+// import { Switch, withRouter, Redirect, Route } from 'react-router-dom'
 
 export default class Signup extends React.Component{
     state = {
@@ -17,10 +17,6 @@ export default class Signup extends React.Component{
         this.props.signupHandler(this.state)
     }
 
-    redirectHandler = () => (
-        console.log("take me to login")
-        // <Redirect to="/login"/>
-    )
 
     render() {
         return(
@@ -36,7 +32,7 @@ export default class Signup extends React.Component{
                 </div>
                 <br/>
                 <div>
-                    <button onClick={this.redirectHandler}>Already a member? Login Here</button >
+                    <button onClick={this.props.redirectHandler}>Already a member? Login Here</button >
                 </div>
             </div>
         )

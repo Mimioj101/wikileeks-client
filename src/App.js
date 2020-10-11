@@ -31,10 +31,8 @@ class App extends React.Component {
             () => this.props.history.push('/')
           )
         })
-        // POST fetch a folder
       } else {
         this.props.history.push('/login')
-        console.log("log in, yo")
     }
   }
   
@@ -74,6 +72,7 @@ class App extends React.Component {
         () => this.props.history.push('/')
       )
     })
+    // POST fetch a folder
   }
 
   searchHandler = (searchTerm) => {
@@ -100,14 +99,16 @@ class App extends React.Component {
      }
      fetch("http://localhost:3000/api/v1/wikis", options)
      .then(resp => resp.json())
-     .then(data => console.log("did you post a wiki, son?", data))
+     .then(wiki => this.postBookmark(wiki))
   }
 
   postBookmark = (wiki) => {
-    // console.log("bookmarking", wiki)
+    console.log("bookmarking", wiki)
     let bookmarkObj = {
       user_id: this.state.user.id,
-      wiki_id: wiki.id
+      wiki_id: wiki["wiki"]["id"],
+      folder_id: 2
+      // if you POST a folder in signup handler, this will need to be dynamic
     }
     let options = {
       method: 'POST',
@@ -135,8 +136,7 @@ class App extends React.Component {
       newArray.push(wiki)
       this.setState({bookmarkedWikis: newArray})
       this.postWiki(wiki)
-      // this.postBookmark(wiki)
-      // POST folder & setState
+      // setState
    }
   }
 
@@ -148,22 +148,31 @@ class App extends React.Component {
     }
   }
 
+  redirectHandlerSignup = () => (
+    console.log("take me to login")
+    // this.props.history.push('/login')
+)
+
+  redirectHandlerLogin = () => (
+    console.log("take me to signup")
+    // this.props.history.push('/signup')
+  )
 
   render() {
     console.log("state in App.js", this.state.bookmarkedWikis)
-    console.log("user in App.js", this.state.user)
-    // console.log("my wikis", this.state.user.my_wikis)
+    // console.log("user in App.js", this.state.user)
+    console.log("my wikis", this.state.user.my_wikis)
     return (
       <div>
         {this.renderNavBar()}
         <Switch>
           <Route 
             path="/login"
-            render={()=> <Login loginHandler={this.loginHandler}/>}
+            render={()=> <Login redirectHandler={this.redirectHandlerLogin} loginHandler={this.loginHandler}/>}
           />
           <Route 
             path="/signup"
-            render={() => <Signup signupHandler={this.signupHandler}/>}
+            render={() => <Signup redirectHandler={this.redirectHandlerSignup} signupHandler={this.signupHandler}/>}
           />
         <Route 
           path="/bookmarks" 
@@ -171,7 +180,6 @@ class App extends React.Component {
             return this.state.user ?
               <BookmarkContainer user={this.state.user} wikis={this.state.bookmarkedWikis}/>
               : null
-          // : <redirect to="/signup"/>
         }}/>
           <Route 
             path="/" 
@@ -183,7 +191,6 @@ class App extends React.Component {
                 <WikiContainer wikis={this.state.searchedWikis} bookmarkHandler={this.bookmarkHandler}/>
               </div>
               : null
-            // : <redirect to="/signup"/>
           }}/>
         </Switch>
       </div>
