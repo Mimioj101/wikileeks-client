@@ -7,6 +7,7 @@ import WikiContainer from './containers/WikiContainer.js'
 import Login from './components/Login.js'
 import Signup from './components/Signup.js'
 import SearchForm from './components/SearchForm.js'
+// add to fetch URL if getting CORS error: https://cors-anywhere.herokuapp.com/
 
 
 class App extends React.Component {
@@ -14,7 +15,8 @@ class App extends React.Component {
   state = {
     user: "",
     searchedWikis: [],
-    bookmarkedWikis: []
+    bookmarkedWikis: [],
+    bookmarksArray: []
   }
 
   componentDidMount() {
@@ -24,15 +26,27 @@ class App extends React.Component {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
       })
-        .then(resp => resp.json())
-        .then(userData => {
-          this.setState(
-            () => ({user: userData.user}),
-            () => this.props.history.push('/')
-          )
-        })
-      } else {
-        this.props.history.push('/login')
+      .then(resp => resp.json())
+      .then(userData => {
+        this.setState(
+          () => ({user: userData.user}),
+          () => this.props.history.push('/')
+        )
+      })
+
+      fetch("http://localhost:3000/api/v1/bookmarks", {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+      })
+      .then(resp => resp.json())
+      .then(bookmarks => 
+        this.setState(
+          () => ({bookmarksArray: bookmarks})
+      ))
+    } else {
+      this.props.history.push('/login')
     }
   }
   
@@ -77,7 +91,7 @@ class App extends React.Component {
 
   searchHandler = (searchTerm) => {
     let banana = searchTerm.split(" ").join("%20")
-    fetch(`https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/w/api.php?action=query&list=search&srlimit=30&srsearch=${banana}&utf8=&format=json`)
+    fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srlimit=30&srsearch=${banana}&utf8=&format=json`)
     .then(resp => resp.json())
     .then(data => 
       this.setState({searchedWikis: data["query"]["search"]})
@@ -126,17 +140,35 @@ class App extends React.Component {
   }
 
   bookmarkHandler = (wiki) => {
-    // if (this.state.user.my_wikis.includes(wiki)) {
-      // compare this.state.user.my_wikis.page_id to wiki.pageid
-      console.log("DELETE IT, KILL IT WITH FIRE", wiki)
-      // DELETE & setState
-    // } else {
+    let foundBookmarkedWiki = this.state.user.my_wikis.find( alreadyBookmarked => alreadyBookmarked.page_id === wiki.pageid)
+    let foundBookmark = this.state.bookmarksArray.find(bookmark => bookmark.user_id === this.state.user.id && bookmark.wiki_id === foundBookmarkedWiki.id)
+    if (foundBookmarkedWiki) {
+      console.log("DELETE IT, KILL IT WITH FIRE", wiki, foundBookmarkedWiki)
+      console.log("I found ur wiki in my bookmarks", foundBookmarkedWiki.id, foundBookmark.id)
+      fetch(`http://localhost:3000/api/v1/bookmarks/${foundBookmark.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+        // let newArray = [...this.state.bookmarkedWikis]
+        // let index = newArray.findIndex(foundBookmark)
+        // newArray.splice(index, 1)
+        // this.setState({bookmarkedWikis: newArray})
+
+        //  setState
+    } else {
+      // console.log("Here, take a new bookmark", wiki, foundBookmark)
       let newArray = [...this.state.bookmarkedWikis]
+      let bookmarkArray = [...this.state.bookmarksArray]
       newArray.push(wiki)
-      this.setState({bookmarkedWikis: newArray})
+      bookmarkArray.push(foundBookmark)
+      this.setState({
+        bookmarkedWikis: newArray,
+        bookmarksArray: bookmarkArray})
       this.postWiki(wiki)
       // setState
-  //  }
+    }
   }
 
   renderNavBar = () => {
@@ -158,9 +190,7 @@ class App extends React.Component {
   )
 
   render() {
-    // console.log("state in App.js", this.state.bookmarkedWikis)
-    // console.log("user in App.js", this.state.user)
-    console.log("my wikis", this.state.user.my_wikis)
+    console.log("my wikis", this.state.bookmarksArray)
     return (
       <div>
         {this.renderNavBar()}
