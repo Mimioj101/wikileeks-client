@@ -125,7 +125,10 @@ class App extends React.Component {
      }
      fetch("http://localhost:3000/api/v1/wikis", options)
      .then(resp => resp.json())
-     .then(wiki => this.postBookmark(wiki))
+     .then(wiki => {
+      this.postBookmark(wiki)
+      this.addToStateWiki(wiki)
+    })
   }
 
   postBookmark = (wiki) => {
@@ -146,8 +149,8 @@ class App extends React.Component {
     }
     fetch("http://localhost:3000/api/v1/bookmarks", options)
     .then(resp => resp.json())
-    .then(data => {
-      console.log("did you post a bookmark, son?", data)
+    .then(newBookmark => {
+      this.addToStateBookmark(newBookmark)
     })
   }
 
@@ -175,39 +178,35 @@ class App extends React.Component {
     this.setState({wikisArray: newArray})
   }
 
-  addToStateBookmark = (foundBookmark) => {
+  addToStateBookmark = (newBookmark) => {
     let bookmarkArray = [...this.state.bookmarksArray]
-    bookmarkArray.push(foundBookmark)
+    bookmarkArray.push(newBookmark)
     this.setState({bookmarksArray: bookmarkArray})
   }
 
-  deleteFromStateBookmark = () => {
-      // let bookArray = [...this.state.bookmarksArray]
-      // let bookIndex = bookArray.findIndex(foundBookmark)
-      // console.log("Deleting a bookmark in state", bookArray, bookIndex)
-      // bookArray.splice(bookIndex, 1)
-      // this.setState({bookmarksArray: bookArray})
+  deleteFromStateBookmark = (foundBookmark) => {
+      let bookArray = [...this.state.bookmarksArray]
+      let bookIndex = bookArray.findIndex(ele => ele === foundBookmark)
+      bookArray.splice(bookIndex, 1)
+      this.setState({bookmarksArray: bookArray})
   }
 
-  deleteFromStateWiki = () => {
-      // let newArray = [...this.state.wikisArray]
-      // let index = newArray.findIndex(foundBookmarkedWiki)
-      // console.log("Deleting a wiki in state", newArray, index)
-      // newArray.splice(index, 1)
-      // this.setState({wikisArray: newArray})
+  deleteFromStateWiki = (foundBookmarkedWiki) => {
+      let wikiArray = [...this.state.wikisArray]
+      let wikiIndex = wikiArray.findIndex(ele => ele === foundBookmarkedWiki)
+      wikiArray.splice(wikiIndex, 1)
+      this.setState({wikisArray: wikiArray})
   }
 
   bookmarkHandler = (wiki) => {
     let foundBookmarkedWiki = this.state.user.my_wikis.find( alreadyBookmarked => alreadyBookmarked.page_id === wiki.pageid)
-    let foundBookmark = this.state.bookmarksArray.find(bookmark => bookmark.user_id === this.state.user.id && bookmark.wiki_id === foundBookmarkedWiki.id) 
     if (foundBookmarkedWiki) {
+      let foundBookmark = this.state.bookmarksArray.find(bookmark => bookmark.user_id === this.state.user.id && bookmark.wiki_id === foundBookmarkedWiki.id) 
       this.deleteBookmark(foundBookmark)
       this.deleteWiki(foundBookmarkedWiki)
-      this.deleteFromStateBookmark()
-      this.deleteFromStateWiki()
+      this.deleteFromStateBookmark(foundBookmark)
+      this.deleteFromStateWiki(foundBookmarkedWiki)
     } else {
-      this.addToStateWiki(wiki)
-      this.addToStateBookmark(foundBookmark)
       this.postWiki(wiki)
     }
   }
@@ -223,7 +222,7 @@ class App extends React.Component {
   redirectHandlerSignup = () => (
     console.log("take me to login")
     // this.props.history.push('/login')
-)
+  )
 
   redirectHandlerLogin = () => (
     console.log("take me to signup")
