@@ -79,12 +79,93 @@ a {
 }
 
 input[type=search] {
+  /* makes box bigger as font size gets bigger */
+  font-size: 45px;
+  /* makes background match color of app background */
+  background-color: transparent;
+  /* takes away inherent border */
+  border: 0;
+  /* takes away blue hover border */
+  outline: none;
+  /* aligns text center w/ border */
+  text-align: center;
+  /* margin around whole container */
+  /* margin: 10px 10px 10px 10px; */
+}
+
+.search-form {
+  /* centers it horizontally */
+  display: flex;
+  justify-content: center;
   /* makes border */
   border:solid 2px #41403E;
   /* makes border handdrawn */
-  border-radius: 255px 15px 225px 15px/15px 225px 15px 25;
-  /* makes box bigger as font size gets bigger */
-  font-size: 30px;
-  /* makes background match color of app background */
-  background-color: transparent;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /* makes width of border smaller */
+  width: 45%;
+}
+
+.login-form {
+  /* brings it to front */
+  z-index: 1;
+  /* background color */
+  background: #FFFFFF;
+  /* box width */
+  max-width: 360px;
+  /* centers it on page more or less */
+  margin: 100px auto 100px;
+  /* padding w/in box b/t edge & content */
+  padding: 45px;
+  /* aligns text center */
+  text-align: center;
+  /* makes border */
+  border:solid 2px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /* shadow */
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.login-input {
+  /* font */
+  font-family: "Roboto", sans-serif;
+  /* outline: 0; */
+  /* background color */
+  background: #f2f2f2;
+  /* makes inoputs length of div */
+  width: 100%;
+  /* border: 0; */
+  /* margin b/t input boxes */
+  margin: 0 0 15px;
+  /* size around the content but still inside the form */
+  padding: 15px;
+  /* evens out the input lengths */
+  box-sizing: border-box;
+  /* font size */
+  font-size: 14px;
+  /* makes border */
+  border:solid 2px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+#login-button {
+  /* font */
+  font-family: "Roboto", sans-serif;
+  /* text-transform: uppercase; */
+  /* outline: 0; */
+  /* background color of button */
+  background: #904E55;
+  /* makes width the lendth of the div */
+  width: 100%;
+  /* takes away a bevel */
+  border: 0;
+  /* padding b/t text and edge */
+  padding: 15px;
+  /* font color */
+  color: #FFFFFF;
+  /* font size */
+  font-size: 14px;
+  /* turns cursor into a hand */
+  cursor: pointer;
 }

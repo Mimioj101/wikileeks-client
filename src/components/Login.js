@@ -24,11 +24,12 @@ export default class Login extends React.Component{
             <div>
                 <div>
                     <form className="login-form" onSubmit={this.submitHandler}>
-                        <input type="text" placeholder="username" name="username" value={this.state.username} onChange={this.changeHandler}/>
+                        <h1>Welcome to WikiLeeks</h1>
+                        <input className="login-input" type="text" placeholder="username" name="username" value={this.state.username} onChange={this.changeHandler}/>
                         <br/>
-                        <input type="text" placeholder="password" name="password" value={this.state.password} onChange={this.changeHandler}/>
+                        <input className="login-input" type="text" placeholder="password" name="password" value={this.state.password} onChange={this.changeHandler}/>
                         <br/>
-                        <input type="submit" value="Login"/>
+                        <input id="login-button" type="submit" value="Login"/>
                     </form>
                 </div>
                 <br/>

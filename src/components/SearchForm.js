@@ -20,8 +20,8 @@ export default class SearchForm extends React.Component {
     render() {
         return(
             <div>
-                <form onSubmit={this.searchHandler}>
-                <input type="search" placeholder="Search..." onChange={this.changeHandler} value={this.state.searchTerm}/>
+                <form className="search-form" onSubmit={this.searchHandler}>
+                    <input type="search" placeholder="Search..." onChange={this.changeHandler} value={this.state.searchTerm}/>
                 </form>
             </div>
         )

@@ -21,17 +21,30 @@ export default class WikiCard extends React.Component{
     }
     
     render() {
-        // console.log("state in wikicard", this.state.bookmarked)
-        let joinedTitle = this.props.wiki.title.split(" ").join("_")
-        let wikiURL = `https://en.wikipedia.org/wiki/${joinedTitle}` 
-        return(
-            <div className="wiki-card" >
-                <span>
-                    <a href={wikiURL} target="_blank">{this.props.wiki.title}</a>
-                    {this.bookmarkRender()}
-                </span>
-            </div>
-        )
+        // console.log("state in wikicard", this.props.wiki)
+        if (this.props.wiki.page_title) {
+            let joinedTitle = this.props.wiki.page_title.split(" ").join("_")
+            let wikiURL = `https://en.wikipedia.org/wiki/${joinedTitle}` 
+            return(
+                <div className="wiki-card" >
+                    <span>
+                        <a href={wikiURL} target="_blank">{this.props.wiki.page_title}</a>
+                        {this.bookmarkRender()}
+                    </span>
+                </div>
+            )
+        } else if (this.props.wiki.title){
+            let joinedTitle = this.props.wiki.title.split(" ").join("_")
+            let wikiURL = `https://en.wikipedia.org/wiki/${joinedTitle}` 
+            return(
+                <div className="wiki-card" >
+                    <span>
+                        <a href={wikiURL} target="_blank">{this.props.wiki.title}</a>
+                        {this.bookmarkRender()}
+                    </span>
+                </div>
+            )
+        }
     }
 }
 

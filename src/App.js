@@ -103,7 +103,6 @@ class App extends React.Component {
   }
 
   postBookmark = (wiki) => {
-    console.log("bookmarking", wiki)
     let bookmarkObj = {
       user_id: this.state.user.id,
       wiki_id: wiki["wiki"]["id"],
@@ -127,17 +126,17 @@ class App extends React.Component {
   }
 
   bookmarkHandler = (wiki) => {
-    if (this.state.bookmarkedWikis.includes(wiki)) {
-      // shouldn't check state, should check the DB
-      console.log("DELETE IT, KILL IT WITH FIRE")
+    // if (this.state.user.my_wikis.includes(wiki)) {
+      // compare this.state.user.my_wikis.page_id to wiki.pageid
+      console.log("DELETE IT, KILL IT WITH FIRE", wiki)
       // DELETE & setState
-    } else {
+    // } else {
       let newArray = [...this.state.bookmarkedWikis]
       newArray.push(wiki)
       this.setState({bookmarkedWikis: newArray})
       this.postWiki(wiki)
       // setState
-   }
+  //  }
   }
 
   renderNavBar = () => {
@@ -159,7 +158,7 @@ class App extends React.Component {
   )
 
   render() {
-    console.log("state in App.js", this.state.bookmarkedWikis)
+    // console.log("state in App.js", this.state.bookmarkedWikis)
     // console.log("user in App.js", this.state.user)
     console.log("my wikis", this.state.user.my_wikis)
     return (
@@ -178,7 +177,7 @@ class App extends React.Component {
           path="/bookmarks" 
           render={() => {
             return this.state.user ?
-              <BookmarkContainer user={this.state.user} wikis={this.state.bookmarkedWikis}/>
+              <BookmarkContainer wikis={this.state.user.my_wikis}/>
               : null
         }}/>
           <Route 
