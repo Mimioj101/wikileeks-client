@@ -15,7 +15,7 @@ class App extends React.Component {
   state = {
     user: "",
     searchedWikis: [],
-    bookmarkedWikis: [],
+    wikisArray: [],
     bookmarksArray: []
   }
 
@@ -33,7 +33,7 @@ class App extends React.Component {
           () => this.props.history.push('/')
         )
       })
-
+  // get all of the bookmarks in the DB and save in state
       fetch("http://localhost:3000/api/v1/bookmarks", {
         method: "GET",
         headers: {
@@ -44,6 +44,18 @@ class App extends React.Component {
       .then(bookmarks => 
         this.setState(
           () => ({bookmarksArray: bookmarks})
+      ))
+      // get all of the wikis in the DB and save in state
+      fetch("http://localhost:3000/api/v1/wikis", {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+      })
+      .then(resp => resp.json())
+      .then(wikis => 
+        this.setState(
+          () => ({wikisArray: wikis})
       ))
     } else {
       this.props.history.push('/login')
@@ -139,35 +151,64 @@ class App extends React.Component {
     })
   }
 
+  deleteBookmark = (foundBookmark) => {
+    fetch(`http://localhost:3000/api/v1/bookmarks/${foundBookmark.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+  }
+
+  deleteWiki = (foundBookmarkedWiki) => {
+    fetch(`http://localhost:3000/api/v1/wikis/${foundBookmarkedWiki.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+  }
+
+  addToStateWiki = (wiki) => {
+    let newArray = [...this.state.wikisArray]
+    newArray.push(wiki)
+    this.setState({wikisArray: newArray})
+  }
+
+  addToStateBookmark = (foundBookmark) => {
+    let bookmarkArray = [...this.state.bookmarksArray]
+    bookmarkArray.push(foundBookmark)
+    this.setState({bookmarksArray: bookmarkArray})
+  }
+
+  deleteFromStateBookmark = () => {
+      // let bookArray = [...this.state.bookmarksArray]
+      // let bookIndex = bookArray.findIndex(foundBookmark)
+      // console.log("Deleting a bookmark in state", bookArray, bookIndex)
+      // bookArray.splice(bookIndex, 1)
+      // this.setState({bookmarksArray: bookArray})
+  }
+
+  deleteFromStateWiki = () => {
+      // let newArray = [...this.state.wikisArray]
+      // let index = newArray.findIndex(foundBookmarkedWiki)
+      // console.log("Deleting a wiki in state", newArray, index)
+      // newArray.splice(index, 1)
+      // this.setState({wikisArray: newArray})
+  }
+
   bookmarkHandler = (wiki) => {
     let foundBookmarkedWiki = this.state.user.my_wikis.find( alreadyBookmarked => alreadyBookmarked.page_id === wiki.pageid)
-    let foundBookmark = this.state.bookmarksArray.find(bookmark => bookmark.user_id === this.state.user.id && bookmark.wiki_id === foundBookmarkedWiki.id)
+    let foundBookmark = this.state.bookmarksArray.find(bookmark => bookmark.user_id === this.state.user.id && bookmark.wiki_id === foundBookmarkedWiki.id) 
     if (foundBookmarkedWiki) {
-      console.log("DELETE IT, KILL IT WITH FIRE", wiki, foundBookmarkedWiki)
-      console.log("I found ur wiki in my bookmarks", foundBookmarkedWiki.id, foundBookmark.id)
-      fetch(`http://localhost:3000/api/v1/bookmarks/${foundBookmark.id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-        // let newArray = [...this.state.bookmarkedWikis]
-        // let index = newArray.findIndex(foundBookmark)
-        // newArray.splice(index, 1)
-        // this.setState({bookmarkedWikis: newArray})
-
-        //  setState
+      this.deleteBookmark(foundBookmark)
+      this.deleteWiki(foundBookmarkedWiki)
+      this.deleteFromStateBookmark()
+      this.deleteFromStateWiki()
     } else {
-      // console.log("Here, take a new bookmark", wiki, foundBookmark)
-      let newArray = [...this.state.bookmarkedWikis]
-      let bookmarkArray = [...this.state.bookmarksArray]
-      newArray.push(wiki)
-      bookmarkArray.push(foundBookmark)
-      this.setState({
-        bookmarkedWikis: newArray,
-        bookmarksArray: bookmarkArray})
+      this.addToStateWiki(wiki)
+      this.addToStateBookmark(foundBookmark)
       this.postWiki(wiki)
-      // setState
     }
   }
 
@@ -190,7 +231,7 @@ class App extends React.Component {
   )
 
   render() {
-    console.log("my wikis", this.state.bookmarksArray)
+    console.log("STATE IN APP", this.state)
     return (
       <div>
         {this.renderNavBar()}
