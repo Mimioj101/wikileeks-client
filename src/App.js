@@ -22,44 +22,54 @@ class App extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem("token")
     if (token) {
-      fetch('http://localhost:3000/api/v1/profile', {
-        method: 'GET',
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then(resp => resp.json())
-      .then(userData => {
-        this.setState(
-          () => ({user: userData.user}),
-          () => this.props.history.push('/')
-        )
-      })
-  // get all of the bookmarks in the DB and save in state
-      fetch("http://localhost:3000/api/v1/bookmarks", {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-      })
-      .then(resp => resp.json())
-      .then(bookmarks => 
-        this.setState(
-          () => ({bookmarksArray: bookmarks})
-      ))
-      // get all of the wikis in the DB and save in state
-      fetch("http://localhost:3000/api/v1/wikis", {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-      })
-      .then(resp => resp.json())
-      .then(wikis => 
-        this.setState(
-          () => ({wikisArray: wikis})
-      ))
+      this.getUser(token)
+      this.getBookmarks(token)
+      this.getWikis(token)
     } else {
       this.props.history.push('/login')
     }
+  }
+
+  getUser = (token) => {
+    fetch('http://localhost:3000/api/v1/profile', {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(resp => resp.json())
+    .then(userData => {
+      this.setState(
+        () => ({user: userData.user}),
+        () => this.props.history.push('/')
+      )
+    })
+  }
+  
+  getBookmarks = (token) => {
+    fetch("http://localhost:3000/api/v1/bookmarks", {
+      method: "GET",
+      headers: {
+          Authorization: `Bearer ${token}`
+      }
+    })
+    .then(resp => resp.json())
+    .then(bookmarks => 
+      this.setState(
+        () => ({bookmarksArray: bookmarks})
+    ))
+  }
+
+  getWikis = (token) => {
+    fetch("http://localhost:3000/api/v1/wikis", {
+      method: "GET",
+      headers: {
+          Authorization: `Bearer ${token}`
+      }
+    })
+    .then(resp => resp.json())
+    .then(wikis => 
+      this.setState(
+        () => ({wikisArray: wikis})
+    ))
   }
   
   loginHandler = (userInfo) => {
