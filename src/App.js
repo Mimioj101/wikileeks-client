@@ -29,7 +29,7 @@ class App extends React.Component {
       this.getWikis(token)
       this.getFolders(token)
     } else {
-      // this.props.history.push('/login')
+      this.props.history.push('/login')
     }
   }
 
@@ -126,7 +126,7 @@ class App extends React.Component {
     .then(userData => {
       localStorage.setItem("token", userData.jwt);
       this.setState(
-        () => ({user: userData.user}),
+        // () => ({user: userData.user}),
         () => this.postFolder(userData),
         () => this.props.history.push('/')
       )
@@ -180,11 +180,12 @@ class App extends React.Component {
   }
 
   postBookmark = (wiki) => {
+    let folderid = this.state.myFoldersArray[0]['id']
     let bookmarkObj = {
       user_id: this.state.user.id,
       wiki_id: wiki["wiki"]["id"],
-      folder_id: 2
-      // if you POST a folder in signup handler, this will need to be dynamic
+      folder_id: folderid
+      // this.state.myFoldersArray[0]["id"] if you POST a folder in signup handler, this will need to be dynamic
     }
     let options = {
       method: 'POST',
