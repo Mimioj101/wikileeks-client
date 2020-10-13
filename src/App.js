@@ -14,6 +14,8 @@ class App extends React.Component {
 
   state = {
     user: "",
+    firstFolder: "",
+    myFoldersArray: [],
     searchedWikis: [],
     wikisArray: [],
     bookmarksArray: []
@@ -25,8 +27,9 @@ class App extends React.Component {
       this.getUser(token)
       this.getBookmarks(token)
       this.getWikis(token)
+      this.getFolders(token)
     } else {
-      this.props.history.push('/login')
+      // this.props.history.push('/login')
     }
   }
 
@@ -71,6 +74,25 @@ class App extends React.Component {
         () => ({wikisArray: wikis})
     ))
   }
+
+  getFolders = (token) => {
+    fetch("http://localhost:3000/api/v1/folders", {
+      method: "GET",
+      headers: {
+          Authorization: `Bearer ${token}`
+      }
+    })
+    .then(resp => resp.json())
+    .then(folders => 
+      this.getMyFolders(folders)
+    )
+  }
+
+  getMyFolders = (folders) => {
+    let myFolders = folders.filter(folder => folder.user_id === this.state.user.id)
+    console.log("my folders:", myFolders)
+    this.setState({myFoldersArray: myFolders})
+  }
   
   loginHandler = (userInfo) => {
     const configObj = {
@@ -105,10 +127,26 @@ class App extends React.Component {
       localStorage.setItem("token", userData.jwt);
       this.setState(
         () => ({user: userData.user}),
+        () => this.postFolder(userData),
         () => this.props.history.push('/')
       )
     })
-    // POST fetch a folder
+  }
+
+
+  postFolder = (userData) => {
+      const folderObj = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"},
+      body: JSON.stringify({user_id: userData.user.id, name: "Bookmarks"})
+    }
+    fetch("http://localhost:3000/api/v1/folders", folderObj)
+    .then(resp => resp.json())
+    .then(folder => 
+      this.setState({firstFolder: folder["folder"]})
+    )
   }
 
   searchHandler = (searchTerm) => {
@@ -279,3 +317,13 @@ class App extends React.Component {
 
 
 export default withRouter(App)
+
+
+
+
+// create folder during signup
+// refactor hardcoded folder id
+// have that folder render in bookmarks container
+// make add folder form- adds to DB & to page
+// drag & drop wikis to update in DB
+// CSS of bookmarks container to have bookmarks under it's folder & scroll
