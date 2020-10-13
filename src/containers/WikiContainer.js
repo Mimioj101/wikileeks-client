@@ -8,9 +8,10 @@ export default class WikiContainer extends React.Component{
     }
 
 
-  bookmarkHandler = (wiki) => {
-    this.props.bookmarkHandler(wiki)
-  }
+    bookmarkHandler = (wiki) => {
+        this.props.bookmarkHandler(wiki)
+        // console.log("wikicontainer:", wiki)
+    }
 
 
     render() {
