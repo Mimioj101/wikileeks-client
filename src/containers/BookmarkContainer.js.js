@@ -4,7 +4,11 @@ import WikiCard from '../components/WikiCard.js'
 export default class BookmarkContainer extends React.Component{
 
     renderWikis = () => {
-        return this.props.wikis.map(wiki => <WikiCard key={wiki.id} wiki={wiki} />)
+        return this.props.wikis.map(wiki => <WikiCard key={wiki.id} wiki={wiki} bookmarkHandler={this.bookmarkHandler} user={this.props.user}/>)
+    }
+
+    bookmarkHandler = (wiki) => {
+        console.log("clicked a wiki in bookmarks container:", wiki)
     }
     
     render() {

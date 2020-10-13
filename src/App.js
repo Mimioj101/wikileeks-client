@@ -240,7 +240,7 @@ class App extends React.Component {
   )
 
   render() {
-    console.log("STATE IN APP", this.state)
+    // console.log("STATE IN APP", this.state, this.state.user.my_wikis)
     return (
       <div>
         {this.renderNavBar()}
@@ -257,7 +257,7 @@ class App extends React.Component {
           path="/bookmarks" 
           render={() => {
             return this.state.user ?
-              <BookmarkContainer wikis={this.state.user.my_wikis}/>
+              <BookmarkContainer wikis={this.state.user.my_wikis} user={this.state.user}/>
               : null
         }}/>
           <Route 
@@ -267,7 +267,7 @@ class App extends React.Component {
               <div>
                 <br/>
                 <SearchForm searchHandler={this.searchHandler}/>
-                <WikiContainer wikis={this.state.searchedWikis} bookmarkHandler={this.bookmarkHandler}/>
+                <WikiContainer wikis={this.state.searchedWikis} bookmarkHandler={this.bookmarkHandler} user={this.state.user}/>
               </div>
               : null
           }}/>
