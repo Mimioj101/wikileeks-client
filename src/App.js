@@ -14,7 +14,7 @@ class App extends React.Component {
 
   state = {
     user: "",
-    myFoldersArray: [],
+    // myFoldersArray: [],
     searchedWikis: [],
     wikisArray: [],
     bookmarksArray: []
@@ -26,7 +26,7 @@ class App extends React.Component {
       this.getUser(token)
       this.getBookmarks(token)
       this.getWikis(token)
-      this.getFolders(token)
+      // this.getFolders(token)
     } else {
       this.props.history.push('/login')
     }
@@ -75,21 +75,21 @@ class App extends React.Component {
   }
 
   getFolders = (token) => {
-    fetch("http://localhost:3000/api/v1/folders", {
-      method: "GET",
-      headers: {
-          Authorization: `Bearer ${token}`
-      }
-    })
-    .then(resp => resp.json())
-    .then(folders => 
-      this.getMyFolders(folders)
-    )
+    // fetch("http://localhost:3000/api/v1/folders", {
+    //   method: "GET",
+    //   headers: {
+    //       Authorization: `Bearer ${token}`
+    //   }
+    // })
+    // .then(resp => resp.json())
+    // .then(folders => 
+    //   this.getMyFolders(folders)
+    // )
   }
 
   getMyFolders = (folders) => {
-    let myFolders = folders.filter(folder => folder.user_id === this.state.user.id)
-    this.setState({myFoldersArray: myFolders})
+    // let myFolders = folders.filter(folder => folder.user_id === this.state.user.id)
+    // this.setState({myFoldersArray: myFolders})
   }
   
   loginHandler = (userInfo) => {
@@ -187,7 +187,6 @@ class App extends React.Component {
   }
 
   postBookmark = (wiki) => {
-    // let folderid = this.state.myFoldersArray[0]['id']
     let bookmarkObj = {
       user_id: this.state.user.id,
       wiki_id: wiki["wiki"]["id"],
@@ -302,7 +301,7 @@ class App extends React.Component {
     
 
   render() {
-    console.log("STATE IN APP", this.findMyWikis())
+    // console.log("STATE IN APP", this.findMyWikis())
     return (
       <div>
         {this.renderNavBar()}

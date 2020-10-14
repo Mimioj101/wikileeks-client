@@ -1,12 +1,60 @@
 import React from "react"
 import WikiCard from '../components/WikiCard.js'
-import NewFolderForm from './NewFolderForm.js'
+import NewFolderForm from '../components/NewFolderForm.js'
+// import FoldersContainer from '../components/WikiCard.js'
 
 export default class BookmarkContainer extends React.Component{
 
     state = {
         displayEdit: false,
-        textInput: ""
+        myFoldersArray: []
+    }
+
+    // fetch bookmarks
+    componentDidMount = () => {
+        const token = localStorage.getItem("token")
+        fetch("http://localhost:3000/api/v1/folders", {
+          method: "GET",
+          headers: {
+              Authorization: `Bearer ${token}`
+          }
+        })
+        .then(resp => resp.json())
+        .then(folders => 
+          this.getMyFolders(folders)
+        )
+      }
+    
+      getMyFolders = (folders) => {
+        let myFolders = folders.filter(folder => folder.user_id === this.props.user.id)
+        this.setState({myFoldersArray: myFolders})
+      }
+    
+    
+    bookmarkHandler = (wiki) => {
+        let foundBookmark = this.props.bookmarks.find(bookmark => bookmark.user_id === this.props.user.id && bookmark.wiki_id === wiki.id) 
+        this.deleteBookmarkedWiki(wiki)
+        this.deleteBookmarkedBookmark(foundBookmark)
+        this.props.bookmarkStateHandler(foundBookmark)
+        this.props.wikiStateHandler(wiki)
+    }
+    
+    deleteBookmarkedBookmark = (foundBookmark) => {
+        fetch(`http://localhost:3000/api/v1/bookmarks/${foundBookmark.id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+    }
+    
+    deleteBookmarkedWiki = (wiki) => {
+        fetch(`http://localhost:3000/api/v1/wikis/${wiki.id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
     }
     
     renderWikis = (folder) => {
@@ -23,38 +71,10 @@ export default class BookmarkContainer extends React.Component{
         }
         return fruitArray.map(wiki => <WikiCard key={wiki.id} wiki={wiki} bookmarkHandler={this.bookmarkHandler} user={this.props.user}/>)
     }
-
-    bookmarkHandler = (wiki) => {
-        let foundBookmark = this.props.bookmarks.find(bookmark => bookmark.user_id === this.props.user.id && bookmark.wiki_id === wiki.id) 
-        // console.log("clicked a wiki in bookmarks container:", wiki.id, this.props.bookmarks)
-        this.deleteBookmarkedWiki(wiki)
-        this.deleteBookmarkedBookmark(foundBookmark)
-        this.props.bookmarkStateHandler(foundBookmark)
-        this.props.wikiStateHandler(wiki)
-    }
-
-    deleteBookmarkedBookmark = (foundBookmark) => {
-        fetch(`http://localhost:3000/api/v1/bookmarks/${foundBookmark.id}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        })
-      }
     
-    deleteBookmarkedWiki = (wiki) => {
-        fetch(`http://localhost:3000/api/v1/wikis/${wiki.id}`, {
-            method: "DELETE",
-            headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        })
-    }
-
-
     mapFolders = () => {
-      return this.props.user.my_folders.map(folder => 
-        <fieldset>
+        return this.state.myFoldersArray.map(folder => 
+            <fieldset>
         {this.state.displayEdit ? 
             <legend>
                 <form onSubmit={this.submitEditHandler} >
@@ -65,7 +85,7 @@ export default class BookmarkContainer extends React.Component{
         :
             <legend>
                 <p>{folder.name}</p>
-                <button className="edit-folder-name" onClick={this.editFormToggle} >Edit</button>
+                <button className="edit-folder-name" onClick={this.editFormToggle} data-folder={folder.id} >Edit</button>
             </legend>
         }  
             <div className="bookmarkContainer">
@@ -78,23 +98,38 @@ export default class BookmarkContainer extends React.Component{
     editFormToggle = (e) => {
         e.persist();
         this.setState({displayEdit: !this.state.displayEdit})
+        console.log("folder in toggle", e.target.dataset.folder)
     }
 
     submitEditHandler = (e) => {
         e.preventDefault();
         this.editFormToggle(e)
-        
-        // fetch("")
         console.log("submitting", e.target[0].value, e)
+    }
+
+    newFolderHandler = (e) => {
+        let folderObj = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accepts": "application/json"},
+                body: JSON.stringify({user_id: this.props.user.id, name: e.target[0].value})
+            }
+        fetch("http://localhost:3000/api/v1/folders", folderObj)
+        .then(resp => resp.json())
+        .then(folder => {
+            let newArray = [...this.state.myFoldersArray, folder["folder"]]
+            this.setState({myFoldersArray: newArray})
+        })
     }
 
     
     render() {
-        console.log("state in bookmarkcontainer:", this.mapFolders(), this.props.user.my_folders)
+        // console.log("state in bookmarkcontainer:", this.state, this.props.user.my_folders)
         return(
             <div>
                 <br/>
-                <NewFolderForm />
+                <NewFolderForm user={this.props.user} newFolderHandler={this.newFolderHandler}/>
                 <br/>
                 {this.mapFolders()}
             </div>
