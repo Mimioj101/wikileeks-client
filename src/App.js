@@ -14,7 +14,6 @@ class App extends React.Component {
 
   state = {
     user: "",
-    firstFolder: "",
     myFoldersArray: [],
     searchedWikis: [],
     wikisArray: [],
@@ -100,20 +99,27 @@ class App extends React.Component {
       headers: {
         "Content-Type": "application/json",
         "Accepts": "application/json"},
-      body: JSON.stringify({user: userInfo})
+        body: JSON.stringify({user: userInfo})
       }
-    fetch("http://localhost:3000/api/v1/login", configObj)
-    .then(resp => resp.json())
-    .then(userData => {
-      localStorage.setItem("token", userData.jwt);
-      this.setState(
-        () => ({user: userData.user}),
-        () => this.props.history.push('/')
+      fetch("http://localhost:3000/api/v1/login", configObj)
+      .then(resp => resp.json())
+      .then(userData => {
+        localStorage.setItem("token", userData.jwt);
+        this.setState(
+          () => ({user: userData.user}),
+          () => {
+            const token = localStorage.getItem("token")
+            this.getBookmarks(token)
+            this.getWikis(token)
+            this.getFolders(token)
+            this.props.history.push('/')
+          }
       )
     })
   }
 
   signupHandler = (userInfo) => {
+    const token = localStorage.getItem("token")
     const configObj = {
       method: "POST",
       headers: {
@@ -126,11 +132,18 @@ class App extends React.Component {
     .then(userData => {
       localStorage.setItem("token", userData.jwt);
       this.setState(
-        // () => ({user: userData.user}),
-        () => this.postFolder(userData),
-        () => this.props.history.push('/')
+        () => ({user: userData.user}),
+        () => {
+          this.postFolder(userData)
+            const token = localStorage.getItem("token")
+            this.getBookmarks(token)
+            this.getWikis(token)
+            this.getFolders(token)
+            this.props.history.push('/')
+          }
+        )
+        }
       )
-    })
   }
 
 
@@ -143,10 +156,6 @@ class App extends React.Component {
       body: JSON.stringify({user_id: userData.user.id, name: "Bookmarks"})
     }
     fetch("http://localhost:3000/api/v1/folders", folderObj)
-    .then(resp => resp.json())
-    .then(folder => 
-      this.setState({firstFolder: folder["folder"]})
-    )
   }
 
   searchHandler = (searchTerm) => {
@@ -180,11 +189,11 @@ class App extends React.Component {
   }
 
   postBookmark = (wiki) => {
-    let folderid = this.state.myFoldersArray[0]['id']
+    // let folderid = this.state.myFoldersArray[0]['id']
     let bookmarkObj = {
       user_id: this.state.user.id,
       wiki_id: wiki["wiki"]["id"],
-      folder_id: folderid
+      folder_id: 13
       // this.state.myFoldersArray[0]["id"] if you POST a folder in signup handler, this will need to be dynamic
     }
     let options = {
@@ -248,7 +257,7 @@ class App extends React.Component {
   }
 
   bookmarkHandler = (wiki) => {
-    let foundBookmarkedWiki = this.state.user.my_wikis.find( alreadyBookmarked => alreadyBookmarked.page_id === wiki.pageid)
+    let foundBookmarkedWiki = this.state.user.my_wikis.find(alreadyBookmarked => alreadyBookmarked.page_id === wiki.pageid)
     if (foundBookmarkedWiki) {
       let foundBookmark = this.state.bookmarksArray.find(bookmark => bookmark.user_id === this.state.user.id && bookmark.wiki_id === foundBookmarkedWiki.id) 
       this.deleteBookmark(foundBookmark)
@@ -278,8 +287,24 @@ class App extends React.Component {
     // this.props.history.push('/signup')
   )
 
+  findMyWikis = () => {
+    let pineapples = this.state.bookmarksArray.filter(bookmark => bookmark.user_id === this.state.user.id)
+    let fruitArray = []
+    // return this.state.wikisArray.filter(wiki => wiki.id === pineapples.wiki_id)
+    for (let i = 0; i < pineapples.length; i++) {
+        for (let j = 0; j < this.state.wikisArray.length; j++) {
+          if (pineapples[i].wiki_id == this.state.wikisArray[j].id){
+            fruitArray.push(this.state.wikisArray[j])
+          }
+        }
+    }
+    return fruitArray
+  }
+
+    
+
   render() {
-    console.log("STATE IN APP", this.state)
+    console.log("STATE IN APP", this.findMyWikis())
     return (
       <div>
         {this.renderNavBar()}
@@ -292,13 +317,13 @@ class App extends React.Component {
             path="/signup"
             render={() => <Signup redirectHandler={this.redirectHandlerSignup} signupHandler={this.signupHandler}/>}
           />
-        <Route 
-          path="/bookmarks" 
-          render={() => {
-            return this.state.user ?
-              <BookmarkContainer wikis={this.state.user.my_wikis} user={this.state.user} bookmarks={this.state.bookmarksArray} wikiStateHandler={this.deleteFromStateWiki} bookmarkStateHandler={this.deleteFromStateBookmark}/>
+          <Route 
+            path="/bookmarks" 
+            render={() => {
+              return this.state.user ?
+                <BookmarkContainer wikis={this.findMyWikis()} user={this.state.user} bookmarks={this.state.bookmarksArray} wikiStateHandler={this.deleteFromStateWiki} bookmarkStateHandler={this.deleteFromStateBookmark}/>
               : null
-        }}/>
+          }}/>
           <Route 
             path="/" 
             render={() => {
@@ -308,7 +333,7 @@ class App extends React.Component {
                 <SearchForm searchHandler={this.searchHandler}/>
                 <WikiContainer wikis={this.state.searchedWikis} bookmarkHandler={this.bookmarkHandler} user={this.state.user}/>
               </div>
-              : null
+            : null
           }}/>
         </Switch>
       </div>

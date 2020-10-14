@@ -9,7 +9,7 @@ export default class BookmarkContainer extends React.Component{
 
     bookmarkHandler = (wiki) => {
         let foundBookmark = this.props.bookmarks.find(bookmark => bookmark.user_id === this.props.user.id && bookmark.wiki_id === wiki.id) 
-        console.log("clicked a wiki in bookmarks container:", wiki.id, this.props.bookmarks)
+        // console.log("clicked a wiki in bookmarks container:", wiki.id, this.props.bookmarks)
         this.deleteBookmarkedWiki(wiki)
         this.deleteBookmarkedBookmark(foundBookmark)
         this.props.bookmarkStateHandler(foundBookmark)
