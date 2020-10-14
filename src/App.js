@@ -182,10 +182,9 @@ class App extends React.Component {
      }
      fetch("http://localhost:3000/api/v1/wikis", options)
      .then(resp => resp.json())
-     .then(wiki => {
-      this.postBookmark(wiki)
-      this.addToStateWiki(wiki)
-    })
+     .then(wikiObj => {
+       this.addToStateWiki(wikiObj)
+      })
   }
 
   postBookmark = (wiki) => {
@@ -232,14 +231,15 @@ class App extends React.Component {
 
   addToStateWiki = (wiki) => {
     let newArray = [...this.state.wikisArray]
-    newArray.push(wiki)
-    this.setState({wikisArray: newArray})
+    newArray.push(wiki["wiki"])
+    this.setState(() => ({wikisArray: newArray}), 
+    () => this.postBookmark(wiki))
   }
 
   addToStateBookmark = (newBookmark) => {
     let bookmarkArray = [...this.state.bookmarksArray]
-    bookmarkArray.push(newBookmark)
-    this.setState({bookmarksArray: bookmarkArray})
+    bookmarkArray.push(newBookmark["bookmark"])
+    this.setState(() => ({bookmarksArray: bookmarkArray}))
   }
 
   deleteFromStateBookmark = (foundBookmark) => {
@@ -290,7 +290,6 @@ class App extends React.Component {
   findMyWikis = () => {
     let pineapples = this.state.bookmarksArray.filter(bookmark => bookmark.user_id === this.state.user.id)
     let fruitArray = []
-    // return this.state.wikisArray.filter(wiki => wiki.id === pineapples.wiki_id)
     for (let i = 0; i < pineapples.length; i++) {
         for (let j = 0; j < this.state.wikisArray.length; j++) {
           if (pineapples[i].wiki_id == this.state.wikisArray[j].id){
