@@ -89,7 +89,6 @@ class App extends React.Component {
 
   getMyFolders = (folders) => {
     let myFolders = folders.filter(folder => folder.user_id === this.state.user.id)
-    console.log("my folders:", myFolders)
     this.setState({myFoldersArray: myFolders})
   }
   

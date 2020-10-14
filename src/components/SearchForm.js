@@ -23,6 +23,7 @@ export default class SearchForm extends React.Component {
                 <form className="search-form" onSubmit={this.searchHandler}>
                     <input type="search" placeholder="Search..." onChange={this.changeHandler} value={this.state.searchTerm}/>
                 </form>
+                <button id="feeling-lucky" >Feeling Lucky?</button>
             </div>
         )
     }
