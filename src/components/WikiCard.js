@@ -29,24 +29,41 @@ export default class WikiCard extends React.Component{
     clickHandler = (e) => {
         e.persist();
         this.setState({bookmarked: !this.state.bookmarked})
-        // if (this.state.bookmarked === false) {
-            // bookmark it
-        // } else {
-            // delete bookmark and wiki (send it a different path])
-        // }
         this.props.bookmarkHandler(this.props.wiki)
+    }
+
+    mapFolders = () => {
+        return this.props.myFolders.map(folder => <option value={folder.id} >{folder.name}</option>)
+    }
+
+    dropDownHandler = (e) => {
+        e.persist();
+        console.log(e.target.value)
+        // setState
+
+        // PATCH request
+
     }
 
     bookmarkRender = () => {
         if (this.state.bookmarked) {
-            return <img className="bookmark-img" src="Bookmarked.png" width="25px" onClick={this.clickHandler} />
+            return (
+                <div>
+            <img className="bookmark-img" src="Bookmarked.png" width="25px" onClick={this.clickHandler} />
+            <form onChange={this.dropDownHandler}>
+                <select id="available-folders">
+                    {this.mapFolders()}
+                </select>
+            </form>
+            </div>
+            )
         } else {
             return <img className="bookmark-img" src="Unbookmarked.png" width="25px" onClick={this.clickHandler} />
         }
     }
     
     render() {
-        // console.log("state in wiki card:", this.state)
+        console.log("state in wiki card:", this.mapFolders())
         if (this.props.wiki.page_title) {
             let joinedTitle = this.props.wiki.page_title.split(" ").join("_")
             let wikiURL = `https://en.wikipedia.org/wiki/${joinedTitle}` 

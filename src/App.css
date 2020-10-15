@@ -28,9 +28,9 @@ body {
   /* flex is generally center aligned */
   justify-content:center;
   /* makes border arounf bookmark container*/
-  border:solid 2px #41403E;
+  /* border:solid 2px #41403E; */
   /* makes border handdrawn */
-  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /* border-radius: 255px 15px 225px 15px/15px 225px 15px 255px; */
 }
 
 #bookmarks-header {

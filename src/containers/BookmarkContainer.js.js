@@ -1,7 +1,6 @@
 import React from "react"
 import WikiCard from '../components/WikiCard.js'
 import NewFolderForm from '../components/NewFolderForm.js'
-// import FoldersContainer from '../components/WikiCard.js'
 
 export default class BookmarkContainer extends React.Component{
 
@@ -10,7 +9,7 @@ export default class BookmarkContainer extends React.Component{
         myFoldersArray: []
     }
 
-    // fetch bookmarks
+
     componentDidMount = () => {
         const token = localStorage.getItem("token")
         fetch("http://localhost:3000/api/v1/folders", {
@@ -69,8 +68,9 @@ export default class BookmarkContainer extends React.Component{
                         }
                 }
         }
-        return fruitArray.map(wiki => <WikiCard key={wiki.id} wiki={wiki} bookmarkHandler={this.bookmarkHandler} user={this.props.user}/>)
+        return fruitArray.map(wiki => <WikiCard key={wiki.id} wiki={wiki} bookmarkHandler={this.bookmarkHandler} user={this.props.user} myFolders={this.state.myFoldersArray}/>)
     }
+
     
     mapFolders = () => {
         return this.state.myFoldersArray.map(folder => 
@@ -88,7 +88,7 @@ export default class BookmarkContainer extends React.Component{
                 <button className="edit-folder-name" onClick={this.editFormToggle} data-folder={folder.id} >Edit</button>
             </legend>
         }  
-            <div className="bookmarkContainer">
+            <div className="bookmarkContainer" >
                 {this.renderWikis(folder)}
             </div>
         </fieldset>
