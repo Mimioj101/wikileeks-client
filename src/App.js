@@ -286,6 +286,7 @@ class App extends React.Component {
   )
 
   findMyWikis = () => {
+    // console.log()
     let pineapples = this.state.bookmarksArray.filter(bookmark => bookmark.user_id === this.state.user.id)
     let fruitArray = []
     for (let i = 0; i < pineapples.length; i++) {
