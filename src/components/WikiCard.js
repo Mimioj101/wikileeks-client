@@ -4,7 +4,8 @@ export default class WikiCard extends React.Component{
 
     state = {
         bookmarked: false,
-        bookmarksArray: []
+        bookmarksArray: [],
+        selectedFolder: ""
     }
 
     componentDidMount = () => {
@@ -29,7 +30,7 @@ export default class WikiCard extends React.Component{
     clickHandler = (e) => {
         e.persist();
         this.setState({bookmarked: !this.state.bookmarked})
-        this.props.bookmarkHandler(this.props.wiki)
+        this.props.bookmarkHandler(this.props.wiki, this.state.selectedFolder)
     }
 
     mapFolders = () => {
@@ -38,50 +39,58 @@ export default class WikiCard extends React.Component{
 
     dropDownHandler = (e) => {
         e.persist();
-        console.log(e.target.value)
-        // setState
-
-        // PATCH request
-
+        this.setState({selectedFolder: e.target.value})
     }
 
     bookmarkRender = () => {
         if (this.state.bookmarked) {
-            return (
-                <div>
-            <img className="bookmark-img" src="Bookmarked.png" width="25px" onClick={this.clickHandler} />
-            <form onChange={this.dropDownHandler}>
-                <select id="available-folders">
-                    {this.mapFolders()}
-                </select>
-            </form>
-            </div>
-            )
+            {/* red bookmark img */}
+            return <img className="bookmark-img" src="Bookmarked.png" width="25px" onClick={this.clickHandler} />
         } else {
+            {/* black bookmark img */}
             return <img className="bookmark-img" src="Unbookmarked.png" width="25px" onClick={this.clickHandler} />
         }
     }
+
+    editDropDownHandler = (e) => {
+        e.persist();
+        this.props.editFolderHandler(this.props.wiki, e.target.value)
+    }
+
+
     
     render() {
-        console.log("state in wiki card:", this.mapFolders())
+        // console.log("state in wiki card:", this.mapFolders())
         if (this.props.wiki.page_title) {
+            // page_title = its bookmarked & saved to DB
             let joinedTitle = this.props.wiki.page_title.split(" ").join("_")
             let wikiURL = `https://en.wikipedia.org/wiki/${joinedTitle}` 
             return (
                 <div className="wiki-card">
                     <span>
                         <a href={wikiURL} target="_blank">{this.props.wiki.page_title}</a>
+                        <form onChange={this.editDropDownHandler}>
+                            <select id="available-folders">
+                                {this.mapFolders()}
+                            </select>
+                        </form>
                         {this.bookmarkRender()}
                     </span>
                  </div>
             )
         } else {
+            // pagetitle = its a wiki fresh from wikipedia and has not been saved to DB
             let joinedTitle = this.props.wiki.title.split(" ").join("_")
             let wikiURL = `https://en.wikipedia.org/wiki/${joinedTitle}` 
             return (
                 <div className="wiki-card" >
                     <span>
                         <a href={wikiURL} target="_blank">{this.props.wiki.title}</a>
+                        <form onChange={this.dropDownHandler}>
+                            <select id="available-folders">
+                                {this.mapFolders()}
+                            </select>
+                        </form>
                         {this.bookmarkRender()}
                     </span>
                 </div>

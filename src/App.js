@@ -14,7 +14,7 @@ class App extends React.Component {
 
   state = {
     user: "",
-    // myFoldersArray: [],
+    myFoldersArray: [],
     searchedWikis: [],
     wikisArray: [],
     bookmarksArray: []
@@ -26,7 +26,7 @@ class App extends React.Component {
       this.getUser(token)
       this.getBookmarks(token)
       this.getWikis(token)
-      // this.getFolders(token)
+      this.getFolders(token)
     } else {
       this.props.history.push('/login')
     }
@@ -75,21 +75,21 @@ class App extends React.Component {
   }
 
   getFolders = (token) => {
-    // fetch("http://localhost:3000/api/v1/folders", {
-    //   method: "GET",
-    //   headers: {
-    //       Authorization: `Bearer ${token}`
-    //   }
-    // })
-    // .then(resp => resp.json())
-    // .then(folders => 
-    //   this.getMyFolders(folders)
-    // )
+    fetch("http://localhost:3000/api/v1/folders", {
+      method: "GET",
+      headers: {
+          Authorization: `Bearer ${token}`
+      }
+    })
+    .then(resp => resp.json())
+    .then(folders => 
+      this.getMyFolders(folders)
+    )
   }
 
   getMyFolders = (folders) => {
-    // let myFolders = folders.filter(folder => folder.user_id === this.state.user.id)
-    // this.setState({myFoldersArray: myFolders})
+    let myFolders = folders.filter(folder => folder.user_id === this.state.user.id)
+    this.setState({myFoldersArray: myFolders})
   }
   
   loginHandler = (userInfo) => {
@@ -166,7 +166,7 @@ class App extends React.Component {
     )
   }
 
-  postWiki = (wiki) => {
+  postWiki = (wiki, folderid) => {
       let wikiObj = {
         page_id: wiki.pageid, 
         page_title: wiki.title,
@@ -182,16 +182,16 @@ class App extends React.Component {
      fetch("http://localhost:3000/api/v1/wikis", options)
      .then(resp => resp.json())
      .then(wikiObj => {
-       this.addToStateWiki(wikiObj)
+       this.addToStateWiki(wikiObj, folderid)
       })
   }
 
-  postBookmark = (wiki) => {
+  postBookmark = (wiki, folderid) => {
+    console.log("I SEE YOURE CREATING A WIKI", wiki, folderid)
     let bookmarkObj = {
       user_id: this.state.user.id,
       wiki_id: wiki["wiki"]["id"],
-      folder_id: 13
-      // this.state.myFoldersArray[0]["id"] if you POST a folder in signup handler, this will need to be dynamic
+      folder_id: folderid
     }
     let options = {
       method: 'POST',
@@ -227,11 +227,11 @@ class App extends React.Component {
     })
   }
 
-  addToStateWiki = (wiki) => {
+  addToStateWiki = (wiki, folderid) => {
     let newArray = [...this.state.wikisArray]
     newArray.push(wiki["wiki"])
     this.setState(() => ({wikisArray: newArray}), 
-    () => this.postBookmark(wiki))
+    () => this.postBookmark(wiki, folderid))
   }
 
   addToStateBookmark = (newBookmark) => {
@@ -254,7 +254,7 @@ class App extends React.Component {
       this.setState({wikisArray: wikiArray})
   }
 
-  bookmarkHandler = (wiki) => {
+  bookmarkHandler = (wiki, folderid) => {
     let foundBookmarkedWiki = this.state.user.my_wikis.find(alreadyBookmarked => alreadyBookmarked.page_id === wiki.pageid)
     if (foundBookmarkedWiki) {
       let foundBookmark = this.state.bookmarksArray.find(bookmark => bookmark.user_id === this.state.user.id && bookmark.wiki_id === foundBookmarkedWiki.id) 
@@ -263,7 +263,7 @@ class App extends React.Component {
       this.deleteFromStateBookmark(foundBookmark)
       this.deleteFromStateWiki(foundBookmarkedWiki)
     } else {
-      this.postWiki(wiki)
+      this.postWiki(wiki, folderid)
     }
   }
 
@@ -301,7 +301,7 @@ class App extends React.Component {
     
 
   render() {
-    // console.log("STATE IN APP", this.findMyWikis())
+    console.log("STATE IN APP", this.state.bookmarksArray)
     return (
       <div>
         {this.renderNavBar()}
@@ -318,7 +318,7 @@ class App extends React.Component {
             path="/bookmarks" 
             render={() => {
               return this.state.user ?
-                <BookmarkContainer wikis={this.findMyWikis()} user={this.state.user} bookmarks={this.state.bookmarksArray} wikiStateHandler={this.deleteFromStateWiki} bookmarkStateHandler={this.deleteFromStateBookmark}/>
+                <BookmarkContainer wikis={this.findMyWikis()} myFolders={this.state.myFoldersArray} user={this.state.user} bookmarks={this.state.bookmarksArray} wikiStateHandler={this.deleteFromStateWiki} bookmarkStateHandler={this.deleteFromStateBookmark}/>
               : null
           }}/>
           <Route 
@@ -328,7 +328,7 @@ class App extends React.Component {
               <div>
                 <br/>
                 <SearchForm searchHandler={this.searchHandler}/>
-                <WikiContainer wikis={this.state.searchedWikis} bookmarkHandler={this.bookmarkHandler} user={this.state.user}/>
+                <WikiContainer wikis={this.state.searchedWikis} bookmarkHandler={this.bookmarkHandler} user={this.state.user} myFolders={this.state.myFoldersArray}/>
               </div>
             : null
           }}/>
@@ -344,9 +344,6 @@ export default withRouter(App)
 
 
 
-// create folder during signup
-// refactor hardcoded folder id
-// have that folder render in bookmarks container
 // make add folder form- adds to DB & to page
-// drag & drop wikis to update in DB
+// drag & drop wikis to update in DB- Drag & drop too hard, use a drop down
 // CSS of bookmarks container to have bookmarks under it's folder & scroll

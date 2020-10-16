@@ -5,8 +5,8 @@ import NewFolderForm from '../components/NewFolderForm.js'
 export default class BookmarkContainer extends React.Component{
 
     state = {
-        displayEdit: false,
-        myFoldersArray: []
+        myFoldersArray: [],
+        displayEdit: false
     }
 
 
@@ -55,6 +55,31 @@ export default class BookmarkContainer extends React.Component{
             }
         })
     }
+
+    editFolderHandler = (wiki, folderid) => {
+        let foundBookmark = this.props.bookmarks.find(bookmark => bookmark.user_id === this.props.user.id && bookmark.wiki_id === wiki.id) 
+        let foldid = parseInt(folderid)
+        let bookmarkObj = {
+            user_id: this.props.user.id,
+            wiki_id: wiki["id"],
+            folder_id: foldid
+        }
+        // console.log("MOVE ALONG, TYRNA EDIT", wiki, folderid, foundBookmark.id)
+        fetch(`http://localhost:3000/api/v1/bookmarks/${foundBookmark.id}`, {
+            method: "PATCH", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': "application/json",
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(bookmarkObj)
+
+        })
+        .then(resp => resp.json())
+        .then(data => console.log(data))
+        // set state there in myFolders Array
+        // patch request w/ parseInt(folderid)
+    }
     
     renderWikis = (folder) => {
         let mybookmarks = this.props.bookmarks.filter(bookmark => bookmark.user_id === this.props.user.id)
@@ -68,7 +93,7 @@ export default class BookmarkContainer extends React.Component{
                         }
                 }
         }
-        return fruitArray.map(wiki => <WikiCard key={wiki.id} wiki={wiki} bookmarkHandler={this.bookmarkHandler} user={this.props.user} myFolders={this.state.myFoldersArray}/>)
+        return fruitArray.map(wiki => <WikiCard key={wiki.id} wiki={wiki} editFolderHandler={this.editFolderHandler}bookmarkHandler={this.bookmarkHandler} user={this.props.user} myFolders={this.state.myFoldersArray}/>)
     }
 
     
