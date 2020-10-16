@@ -64,7 +64,6 @@ export default class BookmarkContainer extends React.Component{
             wiki_id: wiki["id"],
             folder_id: foldid
         }
-        // console.log("MOVE ALONG, TYRNA EDIT", wiki, folderid, foundBookmark.id)
         fetch(`http://localhost:3000/api/v1/bookmarks/${foundBookmark.id}`, {
             method: "PATCH", 
             headers: {
@@ -76,60 +75,34 @@ export default class BookmarkContainer extends React.Component{
 
         })
         .then(resp => resp.json())
-        .then(data => console.log(data))
-        // set state there in myFolders Array
-        // patch request w/ parseInt(folderid)
+        .then(updatedBookmark => this.props.editFolders(updatedBookmark, foundBookmark))
     }
     
     renderWikis = (folder) => {
-        let mybookmarks = this.props.bookmarks.filter(bookmark => bookmark.user_id === this.props.user.id)
-        let filteredbookmarks = mybookmarks.filter(bookmark => bookmark.folder_id === folder.id)
+        let mybookmarks = this.props.bookmarks.filter(bookmark => bookmark.user_id === this.props.user.id && bookmark.folder_id === folder.id)
         let fruitArray = []
         for (let i=0; i < this.props.wikis.length; i++) {
-            for (let j=0; j < filteredbookmarks.length; j++) {
-                        if (filteredbookmarks[j]["wiki_id"] === this.props.wikis[i]["id"]) {
-                            // console.log("OH MAMA", this.props.user.my_wikis[i])
+            for (let j=0; j < mybookmarks.length; j++) {
+                        if (mybookmarks[j]["wiki_id"] === this.props.wikis[i]["id"]) {
                             fruitArray.push(this.props.wikis[i])
                         }
                 }
         }
-        return fruitArray.map(wiki => <WikiCard key={wiki.id} wiki={wiki} editFolderHandler={this.editFolderHandler}bookmarkHandler={this.bookmarkHandler} user={this.props.user} myFolders={this.state.myFoldersArray}/>)
+        return fruitArray.map(wiki => <WikiCard key={wiki.id} wiki={wiki} editFolderHandler={this.editFolderHandler} bookmarkHandler={this.bookmarkHandler} user={this.props.user} myFolders={this.state.myFoldersArray}/>)
     }
 
     
     mapFolders = () => {
         return this.state.myFoldersArray.map(folder => 
             <fieldset>
-        {this.state.displayEdit ? 
-            <legend>
-                <form onSubmit={this.submitEditHandler} >
-                    <input type="text" placeholder="Enter New Folder Name"/>
-                    <input type="submit" />
-                </form>
-            </legend>
-        :
-            <legend>
-                <p>{folder.name}</p>
-                <button className="edit-folder-name" onClick={this.editFormToggle} data-folder={folder.id} >Edit</button>
-            </legend>
-        }  
-            <div className="bookmarkContainer" >
-                {this.renderWikis(folder)}
-            </div>
-        </fieldset>
+                <legend>
+                    <p>{folder.name}</p>
+                </legend>
+                <div className="bookmarkContainer" >
+                    {this.renderWikis(folder)}
+                </div>
+            </fieldset>
     )
-    }
-
-    editFormToggle = (e) => {
-        e.persist();
-        this.setState({displayEdit: !this.state.displayEdit})
-        console.log("folder in toggle", e.target.dataset.folder)
-    }
-
-    submitEditHandler = (e) => {
-        e.preventDefault();
-        this.editFormToggle(e)
-        console.log("submitting", e.target[0].value, e)
     }
 
     newFolderHandler = (e) => {
@@ -147,10 +120,8 @@ export default class BookmarkContainer extends React.Component{
             this.setState({myFoldersArray: newArray})
         })
     }
-
     
     render() {
-        // console.log("state in bookmarkcontainer:", this.state, this.props.user.my_folders)
         return(
             <div>
                 <br/>

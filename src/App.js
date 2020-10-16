@@ -286,7 +286,6 @@ class App extends React.Component {
   )
 
   findMyWikis = () => {
-    // console.log()
     let pineapples = this.state.bookmarksArray.filter(bookmark => bookmark.user_id === this.state.user.id)
     let fruitArray = []
     for (let i = 0; i < pineapples.length; i++) {
@@ -299,6 +298,14 @@ class App extends React.Component {
     return fruitArray
   }
 
+  editFolders = (updatedBookmark, oldBookmark) => {
+    console.log("MIMIMIMI", updatedBookmark, oldBookmark)
+    let bookArray = [...this.state.bookmarksArray]
+    let bookIndex = bookArray.findIndex(ele => ele === oldBookmark)
+    bookArray.splice(bookIndex, 1)
+    bookArray.push(updatedBookmark)
+    this.setState({bookmarksArray: bookArray})
+  }
     
 
   render() {
@@ -319,7 +326,7 @@ class App extends React.Component {
             path="/bookmarks" 
             render={() => {
               return this.state.user ?
-                <BookmarkContainer wikis={this.findMyWikis()} myFolders={this.state.myFoldersArray} user={this.state.user} bookmarks={this.state.bookmarksArray} wikiStateHandler={this.deleteFromStateWiki} bookmarkStateHandler={this.deleteFromStateBookmark}/>
+                <BookmarkContainer wikis={this.findMyWikis()} myFolders={this.state.myFoldersArray} editFolders={this.editFolders} user={this.state.user} bookmarks={this.state.bookmarksArray} wikiStateHandler={this.deleteFromStateWiki} bookmarkStateHandler={this.deleteFromStateBookmark}/>
               : null
           }}/>
           <Route 
@@ -343,8 +350,6 @@ class App extends React.Component {
 export default withRouter(App)
 
 
-
-
-// make add folder form- adds to DB & to page
-// drag & drop wikis to update in DB- Drag & drop too hard, use a drop down
-// CSS of bookmarks container to have bookmarks under it's folder & scroll
+// use a drop down to update bookamrks in DB
+// update happens real time on DOM as well
+// delete folder button

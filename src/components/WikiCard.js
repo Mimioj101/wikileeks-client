@@ -60,7 +60,6 @@ export default class WikiCard extends React.Component{
 
     
     render() {
-        // console.log("state in wiki card:", this.mapFolders())
         if (this.props.wiki.page_title) {
             // page_title = its bookmarked & saved to DB
             let joinedTitle = this.props.wiki.page_title.split(" ").join("_")
@@ -100,4 +99,3 @@ export default class WikiCard extends React.Component{
 }
 
 // need to change snippet from a string to HTML or JSX (JQuery or maybe some library has it?)
-// need to format each card so there is a hand-drawn border, animation, CSS grid
