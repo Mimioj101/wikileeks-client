@@ -5,6 +5,19 @@ body {
   background-color: #F2EFE9;
   /* font on whole website */
   font-family: 'Patrick Hand SC', cursive;
+  /* spaces letters out nicely */
+  letter-spacing:1px;
+  /* font color */
+  color:#41403E;
+}
+
+.navbar {
+  /* overflow: hidden; */
+  /* makes it one big long navbar taking up the whole width of the page */
+  background-color: #252627;
+  /* makes it fat */
+  padding: 12px;
+  font-size: 25px;
 }
 
 .wikiContainer {
@@ -19,28 +32,41 @@ body {
 }
 
 .bookmarkContainer {
-  /* margin around whole container */
-  margin: 10px 10px 10px 10px;
   /* makes it a flex  */
   display:flex;
   /* flex direction is row, flex wrap is on */
   flex-flow: row wrap;
   /* flex is generally center aligned */
   justify-content:center;
-  /* makes border arounf bookmark container*/
-  /* border:solid 2px #41403E; */
-  /* makes border handdrawn */
-  /* border-radius: 255px 15px 225px 15px/15px 225px 15px 255px; */
 }
 
-#bookmarks-header {
-  /* text is centered on page */
-  text-align: center;
+.folder-fieldset {
+  /* makes border around folder container*/
+  border:solid 2px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /* margin around whole container */
+  margin: 30px 35px 30px 35px;
   /* font size */
-  font-size: 40px;
+  font-size: 30px;
+
+}
+
+.dropdown {
+  /* background color of dropdown */
+  background-color:transparent;
   /* font color */
   color:#41403E;
 }
+
+/* #bookmarks-header { */
+  /* text is centered on page */
+  /* text-align: center; */
+  /* font size */
+  /* font-size: 40px; */
+  /* font color */
+  /* color:#41403E; */
+/* } */
 
 .wiki-card {
   /* background color of wikicard */
@@ -71,6 +97,8 @@ a {
   color: #41403E;
   /* gets rid of underline */
   text-decoration: none;
+  /* font size */
+  font-size: 25px;
 }
 
 .bookmark-img {

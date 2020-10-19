@@ -309,7 +309,7 @@ class App extends React.Component {
     
 
   render() {
-    console.log("STATE IN APP", this.state.bookmarksArray)
+    console.log("STATE IN APP", this.state)
     return (
       <div>
         {this.renderNavBar()}

@@ -94,7 +94,7 @@ export default class BookmarkContainer extends React.Component{
     
     mapFolders = () => {
         return this.state.myFoldersArray.map(folder => 
-            <fieldset>
+            <fieldset className="folder-fieldset" >
                 <legend>
                     <p>{folder.name}</p>
                 </legend>
