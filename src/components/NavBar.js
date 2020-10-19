@@ -15,6 +15,7 @@ const link = {
 
   class NavBar extends React.Component {
     render() {
+      
       return (
         <div className="navbar">
           <NavLink
@@ -29,13 +30,16 @@ const link = {
             style={link}
             activeStyle={{background: '#564E58'}}>
           Bookmarks</NavLink>
-          {/* <NavLink
-          to="/logout"
+
+          <NavLink
+          to="/"
           exact
           style={link}
-          activeStyle={{background: '#564E58'}}>
-          Logout</NavLink> 
-          <NavLink
+          // activeStyle={{background: '#564E58'}}
+          onClick={this.props.logout}>
+          Logout</NavLink>
+
+          {/* <NavLink
             to="/login"
             exact
             style={link}

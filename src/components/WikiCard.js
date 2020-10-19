@@ -45,10 +45,10 @@ export default class WikiCard extends React.Component{
     bookmarkRender = () => {
         if (this.state.bookmarked) {
             {/* red bookmark img */}
-            return <img className="bookmark-img" src="BookmarkedLeek.png" width="50px" onClick={this.clickHandler} />
+            return <img className="bookmark-img" src="Bookmarked.png" width="50px" onClick={this.clickHandler} />
         } else {
             {/* black bookmark img */}
-            return <img className="bookmark-img" src="UnbookmarkedLeek.png" width="50px" onClick={this.clickHandler} />
+            return <img className="bookmark-img" src="Unbookmarked.png" width="50px" onClick={this.clickHandler} />
         }
     }
 
@@ -87,7 +87,7 @@ export default class WikiCard extends React.Component{
                     <span>
                         <a href={wikiURL} target="_blank">{this.props.wiki.title}</a>
                         <form onChange={this.dropDownHandler}>
-                            <select id="available-folders" className="dropdown" >
+                            <select id="available-folders" className="dropdown">
                                 <option disabled hidden selected>Select A Folder</option>
                                 {this.mapFolders()}
                             </select>

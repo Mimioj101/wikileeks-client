@@ -267,9 +267,14 @@ class App extends React.Component {
     }
   }
 
+  logout = () => {
+    localStorage.clear('token')
+    window.location.reload()
+  }
+
   renderNavBar = () => {
     if (this.state.user) {
-      return <NavBar/>
+      return <NavBar logout={this.logout}/>
     } else {
       return null
     }
@@ -306,6 +311,8 @@ class App extends React.Component {
     bookArray.push(updatedBookmark)
     this.setState({bookmarksArray: bookArray})
   }
+
+
     
 
   render() {
