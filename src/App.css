@@ -2,8 +2,8 @@
 
 body {
   /* color of app background */
-  /* background-color: #F2EFE9; */
-  background-image: url('https://i.imgur.com/tn5siGy.jpg');
+  background-color: #F2EFE9;
+  background-image: url('https://i.imgur.com/D3AF5DW.png');
   /* font on whole website */
   font-family: 'Patrick Hand SC', cursive;
   /* spaces letters out nicely */
@@ -92,10 +92,10 @@ body {
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
 }
 
-.wiki-card:hover {
+/* .wiki-card:hover { */
   /* wiki card background color changes on hover */
-  background-color: white;
-}
+  /* background-color: white;
+} */
 
 a {
   /* hyperlink text color */
@@ -113,6 +113,8 @@ a {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  /* make cursor turn into hand */
+  cursor: pointer;
 }
 
 input[type=search] {
