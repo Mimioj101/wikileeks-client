@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 const link = {
     width: '100px',
-    padding: '12px',
+    padding: '21px',
     margin: '0 6px 6px',
     background: '#252627',
     textDecoration: 'none',
@@ -18,6 +18,7 @@ const link = {
       
       return (
         <div className="navbar">
+          <img id="wikiorb" src="wikiorb.png"/>
           <NavLink
             to="/"
             exact
