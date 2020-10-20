@@ -15,6 +15,8 @@ export default class SearchForm extends React.Component {
         e.preventDefault()
         this.props.searchHandler(this.state.searchTerm)
     }
+
+
     
     
     render() {
@@ -23,7 +25,6 @@ export default class SearchForm extends React.Component {
                 <form className="search-form" onSubmit={this.searchHandler}>
                     <input type="search" placeholder="Search..." onChange={this.changeHandler} value={this.state.searchTerm}/>
                 </form>
-                <button id="feeling-lucky" >Feeling Lucky?</button>
             </div>
         )
     }

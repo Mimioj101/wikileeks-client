@@ -311,8 +311,6 @@ class App extends React.Component {
     bookArray.push(updatedBookmark)
     this.setState({bookmarksArray: bookArray})
   }
-
-
     
 
   render() {
