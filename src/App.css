@@ -140,6 +140,7 @@ input[type=search] {
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
   /* makes width of border smaller */
   width: 45%;
+  margin: 0 auto;
 }
 
 .login-form {
