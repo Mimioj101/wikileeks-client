@@ -45,10 +45,10 @@ export default class WikiCard extends React.Component{
     bookmarkRender = () => {
         if (this.state.bookmarked) {
             {/* red bookmark img */}
-            return <img className="bookmark-img" src="Bookmarked.png" width="50px" onClick={this.clickHandler} />
+            return <img className="bookmark-img" src="greenbookmark.png" width="45px" onClick={this.clickHandler} />
         } else {
             {/* black bookmark img */}
-            return <img className="bookmark-img" src="Unbookmarked.png" width="50px" onClick={this.clickHandler} />
+            return <img className="bookmark-img" src="greybookmark.png" width="45px" onClick={this.clickHandler} />
         }
     }
 
