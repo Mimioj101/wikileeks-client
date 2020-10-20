@@ -22,12 +22,12 @@ class NewFolderForm extends React.Component {
         return(
             <div>
             {this.state.displayForm ? 
-            <form onSubmit={this.submitHandler}>
-                <input type="text" />
-                <input type="submit"/>
+            <form id="new-folder-form" onSubmit={this.submitHandler}>
+                <input id="new-folder-input" type="text" />
+                <input id="new-folder-submit" type="submit"/>
             </form>
             :
-                <button onClick={this.clickHandler}>+ New Folder</button>
+                <button id="new-folder-button" onClick={this.clickHandler}>+ New Folder</button>
             }
             </div>
         )

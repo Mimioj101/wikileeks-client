@@ -62,6 +62,20 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  /* turns cursor into a hand */
+  cursor: pointer;
+  /* font */
+  font-family: 'Patrick Hand SC', cursive;
+  /* font size */
+  font-size: 15px;
+  /* makes border around folder container*/
+  border:solid 1px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /* takes away blue hover border */
+  outline: none;
+  /* spaces letters out nicely */
+  letter-spacing:1px;
 }
 
 /* #bookmarks-header { */
@@ -92,10 +106,10 @@ body {
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
 }
 
-/* .wiki-card:hover { */
+.wiki-card:hover {
   /* wiki card background color changes on hover */
-  /* background-color: white;
-} */
+  background-color: #F2EFE9;
+}
 
 a {
   /* hyperlink text color */
@@ -124,10 +138,14 @@ input[type=search] {
   background-color: transparent;
   /* takes away inherent border */
   border: 0;
+  /* font color */
+  color:#41403E;
   /* takes away blue hover border */
   outline: none;
   /* aligns text center w/ border */
   text-align: center;
+  /* font */
+  font-family: 'Patrick Hand SC', cursive;
   /* margin around whole container */
   /* margin: 10px 10px 10px 10px; */
 }
@@ -168,7 +186,7 @@ input[type=search] {
 
 .login-input {
   /* font */
-  font-family: "Roboto", sans-serif;
+  /* font-family: 'Patrick Hand SC', cursive; */
   /* outline: 0; */
   /* background color */
   background: #f2f2f2;
@@ -182,17 +200,20 @@ input[type=search] {
   /* evens out the input lengths */
   box-sizing: border-box;
   /* font size */
-  font-size: 14px;
+  font-size: 20px;
   /* makes border */
   border:solid 2px #41403E;
   /* makes border handdrawn */
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /* takes away blue hover border */
+  outline: none;
 }
 
 #login-button {
   /* font */
-  font-family: "Roboto", sans-serif;
-  /* text-transform: uppercase; */
+  font-family: 'Patrick Hand SC', cursive;
+  /* makes it uppercase */
+  text-transform: uppercase;
   /* outline: 0; */
   /* background color of button */
   background: #904E55;
@@ -205,7 +226,106 @@ input[type=search] {
   /* font color */
   color: #FFFFFF;
   /* font size */
-  font-size: 14px;
+  font-size: 22px;
   /* turns cursor into a hand */
   cursor: pointer;
+  /* takes away blue hover border */
+  outline: none;
+}
+
+.delete-folder {
+  /* text color */
+  color: #41403E;
+  /* turns cursor into a hand */
+  cursor: pointer;
+  /* background color */
+  background-color: #7cb518;
+  /* makes border */
+  border:solid 2px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /* font of X */
+  font-family: 'Patrick Hand SC', cursive;
+}
+
+.delete-folder:hover {
+  background-color: #5c8001;
+}
+
+#new-folder-button {
+  /* makes button wider */
+  width: 90%;
+  /* text color */
+  color: #41403E;
+  /* turns cursor into a hand */
+  cursor: pointer;
+  /* background color */
+  background-color: #7cb518;
+  /* makes border */
+  border:solid 2px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /* margin around whole container */
+  margin: 0 auto;
+  /* makes it a flex  */
+  display:flex;
+  /* text center aligned */
+  justify-content:center;
+  /* font on button */
+  font-family: 'Patrick Hand SC', cursive;
+  /* font size */
+  font-size: 20px;
+}
+
+#new-folder-button:hover {
+  background-color: #5c8001;
+}
+
+#new-folder-input {
+  /* makes border */
+  border:solid 2px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /* makes background match color of app background */
+  background-color: transparent;
+  /* takes away blue hover border */
+  outline: none;
+  /* font size */
+  font-size: 30px;
+  /* font in input */
+  font-family: 'Patrick Hand SC', cursive;
+  /* font color */
+  color:#41403E;
+}
+
+#new-folder-submit {
+  /* text color */
+  color: #41403E;
+  /* turns cursor into a hand */
+  cursor: pointer;
+  /* background color */
+  background-color: #7cb518;
+  /* makes border */
+  border:solid 2px #41403E;
+  /* makes border handdrawn */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /* makes button wider */
+  width: 20%;
+  /* font size */
+  font-size: 30px;
+  /* font on button */
+  font-family: 'Patrick Hand SC', cursive;
+}
+
+#new-folder-submit:hover {
+  background-color: #5c8001;
+}
+
+#new-folder-form {
+  /* margin around whole container */
+  margin: 0 auto;
+  /* makes it a flex  */
+  display:flex;
+  /* text center aligned */
+  justify-content:center;
 }

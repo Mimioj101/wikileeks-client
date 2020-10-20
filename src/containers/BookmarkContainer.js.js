@@ -109,6 +109,7 @@ export default class BookmarkContainer extends React.Component{
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
+        // should also delete wikis under that folder
     }
 
     
@@ -116,7 +117,7 @@ export default class BookmarkContainer extends React.Component{
         return this.state.myFoldersArray.map(folder => 
             <fieldset className="folder-fieldset" >
                 <legend>
-                    <p>{folder.name} <button data-id={folder.id} onClick={this.clickHandler}>X</button></p>
+                    <p>{folder.name} <button data-id={folder.id} onClick={this.clickHandler} className="delete-folder">X</button></p>
                     
                 </legend>
                 <div className="bookmarkContainer" >
@@ -147,7 +148,6 @@ export default class BookmarkContainer extends React.Component{
             <div>
                 <br/>
                 <NewFolderForm user={this.props.user} newFolderHandler={this.newFolderHandler}/>
-                <br/>
                 {this.mapFolders()}
             </div>
         )
