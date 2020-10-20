@@ -23,29 +23,22 @@ const link = {
             to="/"
             exact
             style={link}
-            activeStyle={{background: '#564E58'}}>
+            activeStyle={{background: '#d68c45'}}>
           Home</NavLink>
           <NavLink
             to="/bookmarks"
             exact
             style={link}
-            activeStyle={{background: '#564E58'}}>
+            activeStyle={{background: '#d68c45'}}>
           Bookmarks</NavLink>
 
           <NavLink
           to="/"
           exact
           style={link}
-          // activeStyle={{background: '#564E58'}}
+          // activeStyle={{background: '#ffc9b9'}}
           onClick={this.props.logout}>
           Logout</NavLink>
-
-          {/* <NavLink
-            to="/login"
-            exact
-            style={link}
-            activeStyle={{background: '#564E58'}}>
-          Login</NavLink> */}
         </div>
       );
     }

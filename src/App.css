@@ -2,7 +2,7 @@
 
 body {
   /* color of app background */
-  background-color: #F2EFE9;
+  background-color: #fefee3;
   background-image: url('https://i.imgur.com/D3AF5DW.png');
   /* font on whole website */
   font-family: 'Patrick Hand SC', cursive;
@@ -78,15 +78,6 @@ body {
   letter-spacing:1px;
 }
 
-/* #bookmarks-header { */
-  /* text is centered on page */
-  /* text-align: center; */
-  /* font size */
-  /* font-size: 40px; */
-  /* font color */
-  /* color:#41403E; */
-/* } */
-
 .wiki-card {
   /* background color of wikicard */
   background:transparent;
@@ -108,7 +99,7 @@ body {
 
 .wiki-card:hover {
   /* wiki card background color changes on hover */
-  background-color: #F2EFE9;
+  background-color: #fefee3;
 }
 
 a {
@@ -121,8 +112,6 @@ a {
 }
 
 .bookmark-img {
-  /* vertically aligns bookmark img w/ text */
-  /* vertical-align: middle; */
   /* centers it */
   display: block;
   margin-left: auto;
@@ -135,7 +124,7 @@ input[type=search] {
   /* makes box bigger as font size gets bigger */
   font-size: 45px;
   /* makes background match color of app background */
-  background-color: transparent;
+  background-color: #fefee3;
   /* takes away inherent border */
   border: 0;
   /* font color */
@@ -146,8 +135,6 @@ input[type=search] {
   text-align: center;
   /* font */
   font-family: 'Patrick Hand SC', cursive;
-  /* margin around whole container */
-  /* margin: 10px 10px 10px 10px; */
 }
 
 .search-form {
@@ -185,8 +172,8 @@ input[type=search] {
 }
 
 .login-input {
-  /* font */
-  /* font-family: 'Patrick Hand SC', cursive; */
+  /* font color */
+  color: #41403E;
   /* outline: 0; */
   /* background color */
   background: #f2f2f2;
@@ -216,7 +203,7 @@ input[type=search] {
   text-transform: uppercase;
   /* outline: 0; */
   /* background color of button */
-  background: #904E55;
+  background: #ffc9b9;
   /* makes width the lendth of the div */
   width: 100%;
   /* takes away a bevel */
@@ -224,7 +211,7 @@ input[type=search] {
   /* padding b/t text and edge */
   padding: 15px;
   /* font color */
-  color: #FFFFFF;
+  color: #41403E;
   /* font size */
   font-size: 22px;
   /* turns cursor into a hand */
