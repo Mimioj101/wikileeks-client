@@ -158,8 +158,8 @@ class App extends React.Component {
   }
 
   searchHandler = (searchTerm) => {
-    let banana = searchTerm.split(" ").join("%20")
-    fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srlimit=30&srsearch=${banana}&utf8=&format=json`)
+    // let banana = searchTerm.split(" ").join("%20")
+    fetch(`http://localhost:3000/api/v1/wikiarticles?search=${searchTerm}`)
     .then(resp => resp.json())
     .then(data => 
       this.setState({searchedWikis: data["query"]["search"]})

@@ -124,7 +124,7 @@ input[type=search] {
   /* makes box bigger as font size gets bigger */
   font-size: 45px;
   /* makes background match color of app background */
-  background-color: #fefee3;
+  background-color: transparent;
   /* takes away inherent border */
   border: 0;
   /* font color */
