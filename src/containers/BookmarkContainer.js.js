@@ -91,12 +91,33 @@ export default class BookmarkContainer extends React.Component{
         return fruitArray.map(wiki => <WikiCard key={wiki.id} wiki={wiki} editFolderHandler={this.editFolderHandler} bookmarkHandler={this.bookmarkHandler} user={this.props.user} myFolders={this.state.myFoldersArray}/>)
     }
 
+    clickHandler = (e) => {
+        e.persist();
+        this.deleteFolder(e.target.dataset.id)
+        console.log(e.target.dataset.id)
+    }
+
+    deleteFolder = (folderid) => {
+        let numFolderID = parseInt(folderid)
+        let folderArray = [...this.state.myFoldersArray]
+        let folderIndex = folderArray.findIndex(folder => folder.id === numFolderID)
+        folderArray.splice(folderIndex, 1)
+        this.setState({myFoldersArray: folderArray})
+        fetch(`http://localhost:3000/api/v1/folders/${numFolderID}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+    }
+
     
     mapFolders = () => {
         return this.state.myFoldersArray.map(folder => 
             <fieldset className="folder-fieldset" >
                 <legend>
-                    <p>{folder.name}</p>
+                    <p>{folder.name} <button data-id={folder.id} onClick={this.clickHandler}>X</button></p>
+                    
                 </legend>
                 <div className="bookmarkContainer" >
                     {this.renderWikis(folder)}

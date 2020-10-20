@@ -269,6 +269,7 @@ class App extends React.Component {
 
   logout = () => {
     localStorage.clear('token')
+    window.location.reload();
   }
 
   renderNavBar = () => {
