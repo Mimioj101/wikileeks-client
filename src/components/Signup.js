@@ -28,11 +28,8 @@ export default class Signup extends React.Component{
                     <input type="text" placeholder="password" name="password" value={this.state.password} onChange={this.changeHandler}/>
                     <br/>
                     <input type="submit" value="Signup"/>
+                    <a href="http://localhost:3001/login">Already a member? Login here!</a>
                     </form>
-                </div>
-                <br/>
-                <div>
-                    <button onClick={this.props.redirectHandler}>Already a member? Login Here</button >
                 </div>
             </div>
         )

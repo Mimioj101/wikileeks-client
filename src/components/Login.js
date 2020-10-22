@@ -30,11 +30,8 @@ export default class Login extends React.Component{
                         <input className="login-input" type="password" placeholder="password" name="password" value={this.state.password} onChange={this.changeHandler}/>
                         <br/>
                         <input id="login-button" type="submit" value="Login"/>
+                        <a href="http://localhost:3001/signup">Not yet a member? Sign up here!</a>
                     </form>
-                </div>
-                <br/>
-                <div>
-                    <button onClick={this.props.redirectHandler}>Not yet a member? Sign up here</button>
                 </div>
             </div>
         )

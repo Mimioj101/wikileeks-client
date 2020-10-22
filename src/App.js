@@ -28,6 +28,7 @@ class App extends React.Component {
       this.getWikis(token)
       this.getFolders(token)
     } else {
+      // this line is the reason I cannot go to /signup
       this.props.history.push('/login')
     }
   }
@@ -281,16 +282,6 @@ class App extends React.Component {
     }
   }
 
-  redirectHandlerSignup = () => (
-    console.log("take me to login")
-    // this.props.history.push('/login')
-  )
-
-  redirectHandlerLogin = () => (
-    console.log("take me to signup")
-    // this.props.history.push('/signup')
-  )
-
   findMyWikis = () => {
     let pineapples = this.state.bookmarksArray.filter(bookmark => bookmark.user_id === this.state.user.id)
     let fruitArray = []
@@ -305,7 +296,6 @@ class App extends React.Component {
   }
 
   editFolders = (updatedBookmark, oldBookmark) => {
-    console.log("MIMIMIMI", updatedBookmark, oldBookmark)
     let bookArray = [...this.state.bookmarksArray]
     let bookIndex = bookArray.findIndex(ele => ele === oldBookmark)
     bookArray.splice(bookIndex, 1)
@@ -314,21 +304,18 @@ class App extends React.Component {
   }
 
 
-    
-
   render() {
-    console.log("STATE IN APP", this.state)
     return (
       <div>
         {this.renderNavBar()}
         <Switch>
           <Route 
             path="/login"
-            render={()=> <Login redirectHandler={this.redirectHandlerLogin} loginHandler={this.loginHandler}/>}
+            render={()=> <Login loginHandler={this.loginHandler}/>}
           />
           <Route 
             path="/signup"
-            render={() => <Signup redirectHandler={this.redirectHandlerSignup} signupHandler={this.signupHandler}/>}
+            render={() => <Signup signupHandler={this.signupHandler}/>}
           />
           <Route 
             path="/bookmarks" 
@@ -356,8 +343,3 @@ class App extends React.Component {
 
 
 export default withRouter(App)
-
-
-// use a drop down to update bookamrks in DB
-// update happens real time on DOM as well
-// delete folder button
