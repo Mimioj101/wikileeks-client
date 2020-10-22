@@ -187,11 +187,12 @@ class App extends React.Component {
   }
 
   postBookmark = (wiki, folderid) => {
-    console.log("I SEE YOURE CREATING A WIKI", wiki, folderid)
+    let bookmarksFolder = this.state.myFoldersArray.find(folder => folder.name === "Bookmarks")
+    console.log(bookmarksFolder)
     let bookmarkObj = {
       user_id: this.state.user.id,
       wiki_id: wiki["wiki"]["id"],
-      folder_id: folderid
+      folder_id: folderid || bookmarksFolder.id
     }
     let options = {
       method: 'POST',
