@@ -1,7 +1,7 @@
 
 ### WikiLeeks 🧠 👩‍🏫
 
-WikiLeeks is a Wikipedia search and save web app utilizing a Rails backend and a React frontend.
+WikiLeeks is a Wikipedia search and save web app utilizing a Rails backend and a React frontend  🧠
 
 
 ![WikiLeeks Demo Gif](WikiLeeks-Demo.gif)
