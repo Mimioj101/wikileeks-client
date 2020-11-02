@@ -1,38 +1,23 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## WikiLeeks
+### WikiLeeks 🧠 👩‍🏫
 
 WikiLeeks is a Wikipedia search and save web app utilizing a Rails backend and a React frontend.
 
-![](WikiLeeks-Demo.gif)
 
-Prerequisites
-Before you begin, ensure you have met the following requirements:
+![WikiLeeks Demo Gif](WikiLeeks-Demo.gif)
 
-You have installed the latest version of Rails & React.
-You have read the documentation.
 
 ## Installing WikiLeeks
-To install WikiLeeks, follow these steps:
+- Clone this repo to your local machine git clone <this-repo-url>.
+- Ensure your Backend API is running at http://localhost:3000/.
+- run npm install to install all dependencies.
+- run npm start to start server.
+- When prompted, ensure Frontend is running at http://localhost:3001.
 
-macOS:
-npm install
-
-
-## Running Commands
-npm start
-
-## Contributing to WikiLeeks
-To contribute to WikiLeeks, follow these steps:
-
-Fork this repository.
-Create a branch: git checkout -b <branch_name>.
-Make your changes and commit them: git commit -m '<commit_message>'
-Push to the original branch: git push origin wikileeks-client/main
-Create the pull request.
-Alternatively see the GitHub documentation on creating a pull request.
-
-
+## Tech Stack
+- React.js
+- React Router - Declarative Routing
+- MediaWiki API
 
 ## Contact
 If you want to contact me you can reach me at mimioj@gmail.com
