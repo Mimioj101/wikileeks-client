@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## WikiLeeks
 
-WikiLeeks is a Wikipedia search and save web app utilizing a Rails backend and a React frontend.
+WikiLeeks is a Wikipedia search and save web app utilizing a Rails backend and a React frontend  🧠
 
 ![](WikiLeeks-Demo.gif)
 
