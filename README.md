@@ -6,6 +6,8 @@ WikiLeeks is a Wikipedia search and save web app utilizing a Rails backend and a
 
 ![WikiLeeks Demo Gif](WikiLeeks-Demo.gif)
 
+DEMO: https://www.youtube.com/watch?v=ZFAMTqQR6iM&feature=youtu.be
+
 
 ## Installing WikiLeeks
 - Clone this repo to your local machine git clone <this-repo-url>.
